@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+  <record id="seq_sale" model="nexo.sequence">
+    <field name="name">Ventas</field>
+    <field name="code">SALE</field>
+    <field name="prefix">VEN-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+
+  <record id="seq_purchase" model="nexo.sequence">
+    <field name="name">Compras</field>
+    <field name="code">PURCHASE</field>
+    <field name="prefix">COM-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+
+  <record id="seq_invoice" model="nexo.sequence">
+    <field name="name">Facturas</field>
+    <field name="code">INVOICE</field>
+    <field name="prefix">FAC-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+
+  <record id="seq_inventory" model="nexo.sequence">
+    <field name="name">Inventario</field>
+    <field name="code">INV</field>
+    <field name="prefix">INV-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+
+  <record id="seq_service" model="nexo.sequence">
+    <field name="name">Servicio</field>
+    <field name="code">SRV</field>
+    <field name="prefix">SRV-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+</odoo>

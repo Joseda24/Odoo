@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_sale_order_form_inherit_dealer" model="ir.ui.view">
+    <field name="name">nexo.sale.order.form.inherit.dealer</field>
+    <field name="model">nexo.sale.order</field>
+    <field name="inherit_id" ref="nexo_core.view_nexo_sale_order_form"/>
+    <field name="arch" type="xml">
+      <field name="partner_id" position="after">
+        <field name="vehicle_id"/>
+        <field name="vehicle_vin"/>
+      </field>
+    </field>
+  </record>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_purchase_order_tree" model="ir.ui.view">
+    <field name="name">nexo.purchase.order.tree</field>
+    <field name="model">nexo.purchase.order</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="partner_id"/>
+        <field name="date_order"/>
+        <field name="state" widget="badge"/>
+        <field name="amount_total" sum="Total"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_purchase_order_form" model="ir.ui.view">
+    <field name="name">nexo.purchase.order.form</field>
+    <field name="model">nexo.purchase.order</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="state" widget="statusbar"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <field name="partner_id"/>
+            <field name="date_order"/>
+          </group>
+          <field name="line_ids">
+            <list editable="bottom">
+              <field name="product_id"/>
+              <field name="description"/>
+              <field name="quantity"/>
+              <field name="price_unit"/>
+              <field name="price_total" sum="Total"/>
+            </list>
+          </field>
+          <field name="amount_total"/>
+          <group string="Notas">
+            <field name="notes"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

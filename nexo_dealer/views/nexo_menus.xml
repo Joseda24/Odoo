@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <menuitem id="menu_nexo_dealer" name="Concesionario" parent="nexo_core.menu_nexo_root" sequence="15"/>
+  <menuitem id="menu_nexo_vehicle_brands" name="Marcas" parent="menu_nexo_dealer" sequence="10"/>
+  <menuitem id="menu_nexo_vehicle_models" name="Modelos" parent="menu_nexo_dealer" sequence="20"/>
+  <menuitem id="menu_nexo_vehicles" name="Vehículos" parent="menu_nexo_dealer" sequence="30"/>
+  <menuitem id="menu_nexo_vehicle_inventory" name="Inventario" parent="menu_nexo_dealer" sequence="25"/>
+  <menuitem id="menu_nexo_vehicle_service" name="Taller" parent="menu_nexo_dealer" sequence="40"/>
+
+  <record id="action_nexo_vehicle_brand" model="ir.actions.act_window">
+    <field name="name">Marcas</field>
+    <field name="res_model">nexo.vehicle.brand</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_vehicle_model" model="ir.actions.act_window">
+    <field name="name">Modelos</field>
+    <field name="res_model">nexo.vehicle.model</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_vehicle" model="ir.actions.act_window">
+    <field name="name">Vehículos</field>
+    <field name="res_model">nexo.vehicle</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_vehicle_inventory" model="ir.actions.act_window">
+    <field name="name">Inventario</field>
+    <field name="res_model">nexo.vehicle.inventory</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_vehicle_service_order" model="ir.actions.act_window">
+    <field name="name">Órdenes de servicio</field>
+    <field name="res_model">nexo.vehicle.service.order</field>
+    <field name="view_mode">list,form</field>
+  </record>
+</odoo>

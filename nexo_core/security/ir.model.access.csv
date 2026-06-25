@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexo_sequence,nexo.sequence,model_nexo_sequence,base.group_user,1,1,1,1
+access_nexo_partner,nexo.partner,model_nexo_partner,base.group_user,1,1,1,1
+access_nexo_product_category,nexo.product.category,model_nexo_product_category,base.group_user,1,1,1,1
+access_nexo_product,nexo.product,model_nexo_product,base.group_user,1,1,1,1
+access_nexo_sale_order,nexo.sale.order,model_nexo_sale_order,base.group_user,1,1,1,1
+access_nexo_sale_order_line,nexo.sale.order.line,model_nexo_sale_order_line,base.group_user,1,1,1,1
+access_nexo_purchase_order,nexo.purchase.order,model_nexo_purchase_order,base.group_user,1,1,1,1
+access_nexo_purchase_order_line,nexo.purchase.order.line,model_nexo_purchase_order_line,base.group_user,1,1,1,1
+access_nexo_invoice,nexo.invoice,model_nexo_invoice,base.group_user,1,1,1,1
+access_nexo_invoice_line,nexo.invoice.line,model_nexo_invoice_line,base.group_user,1,1,1,1

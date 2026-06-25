@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_vehicle_inventory_list" model="ir.ui.view">
+    <field name="name">nexo.vehicle.inventory.list</field>
+    <field name="model">nexo.vehicle.inventory</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="date_in"/>
+        <field name="vehicle_id"/>
+        <field name="type"/>
+        <field name="cost_price"/>
+        <field name="supplier_id"/>
+        <field name="state" widget="badge"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_vehicle_inventory_form" model="ir.ui.view">
+    <field name="name">nexo.vehicle.inventory.form</field>
+    <field name="model">nexo.vehicle.inventory</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="state" widget="statusbar"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <field name="date_in"/>
+            <field name="vehicle_id"/>
+            <field name="type"/>
+            <field name="cost_price"/>
+            <field name="supplier_id"/>
+          </group>
+          <group string="Notas">
+            <field name="notes"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

@@ -1,0 +1,20 @@
+{
+    'name': 'Nexo Concesionario',
+    'version': '18.0.1.1.0',
+    'summary': 'Gestión de concesionario de vehículos',
+    'category': 'Sales',
+    'depends': ['nexo_core'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/nexo_vehicle_brand_views.xml',
+        'views/nexo_vehicle_model_views.xml',
+        'views/nexo_vehicle_views.xml',
+        'views/nexo_inventory_views.xml',
+        'views/nexo_service_order_views.xml',
+        'views/nexo_sale_order_views.xml',
+        'views/nexo_menus.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}

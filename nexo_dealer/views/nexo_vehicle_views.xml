@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_vehicle_list" model="ir.ui.view">
+    <field name="name">nexo.vehicle.list</field>
+    <field name="model">nexo.vehicle</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="brand_id"/>
+        <field name="model_id"/>
+        <field name="model_year"/>
+        <field name="vin"/>
+        <field name="sale_price"/>
+        <field name="vehicle_status"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_vehicle_form" model="ir.ui.view">
+    <field name="name">nexo.vehicle.form</field>
+    <field name="model">nexo.vehicle</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <group string="Identificación">
+              <field name="vin"/>
+              <field name="license_plate"/>
+              <field name="color"/>
+              <field name="vehicle_status"/>
+            </group>
+            <group string="Clasificación">
+              <field name="brand_id"/>
+              <field name="model_id"/>
+              <field name="model_year"/>
+            </group>
+          </group>
+          <group>
+            <group string="Especificaciones">
+              <field name="engine"/>
+              <field name="transmission"/>
+              <field name="fuel_type"/>
+              <field name="doors"/>
+              <field name="seats"/>
+              <field name="mileage"/>
+            </group>
+            <group string="Precios">
+              <field name="sale_price"/>
+              <field name="cost_price"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_vehicle_search" model="ir.ui.view">
+    <field name="name">nexo.vehicle.search</field>
+    <field name="model">nexo.vehicle</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="vin"/>
+        <field name="brand_id"/>
+        <field name="model_id"/>
+        <field name="license_plate"/>
+      </search>
+    </field>
+  </record>
+</odoo>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_partner_tree" model="ir.ui.view">
+    <field name="name">nexo.partner.tree</field>
+    <field name="model">nexo.partner</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="phone"/>
+        <field name="email"/>
+        <field name="vat"/>
+        <field name="city"/>
+        <field name="is_customer"/>
+        <field name="is_supplier"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_partner_form" model="ir.ui.view">
+    <field name="name">nexo.partner.form</field>
+    <field name="model">nexo.partner</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <group string="Contacto">
+              <field name="phone"/>
+              <field name="email"/>
+              <field name="website"/>
+              <field name="vat"/>
+              <field name="company_type"/>
+              <field name="is_customer"/>
+              <field name="is_supplier"/>
+            </group>
+            <group string="Dirección">
+              <field name="street"/>
+              <field name="street2"/>
+              <field name="city"/>
+              <field name="state_id"/>
+              <field name="zip"/>
+              <field name="country_id"/>
+            </group>
+          </group>
+          <group string="Notas">
+            <field name="notes"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_partner_search" model="ir.ui.view">
+    <field name="name">nexo.partner.search</field>
+    <field name="model">nexo.partner</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="phone"/>
+        <field name="email"/>
+        <field name="vat"/>
+      </search>
+    </field>
+  </record>
+</odoo>

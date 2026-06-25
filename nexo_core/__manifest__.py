@@ -1,0 +1,22 @@
+{
+    'name': 'Nexo Core',
+    'version': '18.0.1.0.0',
+    'summary': 'Módulo base para todos los proyectos Nexo',
+    'category': 'Sales',
+    'depends': ['base', 'web', 'uom'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/nexo_sequence_data.xml',
+        'views/nexo_actions.xml',
+        'views/nexo_partner_views.xml',
+        'views/nexo_product_category_views.xml',
+        'views/nexo_product_views.xml',
+        'views/nexo_sale_order_views.xml',
+        'views/nexo_purchase_order_views.xml',
+        'views/nexo_invoice_views.xml',
+        'views/nexo_menus.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}

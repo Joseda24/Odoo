@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexo_vehicle_brand,nexo.vehicle.brand,model_nexo_vehicle_brand,base.group_user,1,1,1,1
+access_nexo_vehicle_model,nexo.vehicle.model,model_nexo_vehicle_model,base.group_user,1,1,1,1
+access_nexo_vehicle,nexo.vehicle,model_nexo_vehicle,base.group_user,1,1,1,1
+access_nexo_vehicle_inventory,nexo.vehicle.inventory,model_nexo_vehicle_inventory,base.group_user,1,1,1,1
+access_nexo_vehicle_service_order,nexo.vehicle.service.order,model_nexo_vehicle_service_order,base.group_user,1,1,1,1
+access_nexo_vehicle_service_line,nexo.vehicle.service.line,model_nexo_vehicle_service_line,base.group_user,1,1,1,1
