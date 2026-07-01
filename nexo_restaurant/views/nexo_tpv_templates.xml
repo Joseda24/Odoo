@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="tpv_page" name="TPV Restaurante">
+    <html>
+      <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>TPV - Restaurante</title>
+        <link rel="stylesheet" type="text/css" href="/nexo_restaurant/static/src/css/tpv.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+      </head>
+      <body>
+        <div id="tpv-app">
+          <div id="tpv-sidebar">
+            <div class="tpv-header">
+              <h2><i class="fas fa-utensils"></i> TPV</h2>
+              <span id="tpv-waiter"></span>
+              <a href="/web" class="tpv-exit"><i class="fas fa-sign-out-alt"></i> Salir</a>
+            </div>
+            <div class="tpv-area-filter">
+              <button class="active" data-area="0">Todas</button>
+            </div>
+            <div id="tpv-tables" class="tpv-tables-grid"></div>
+          </div>
+          <div id="tpv-main">
+            <div id="tpv-table-select" class="tpv-placeholder">
+              <i class="fas fa-hand-pointer"></i>
+              <h3>Selecciona una mesa</h3>
+            </div>
+            <div id="tpv-order-panel" style="display:none">
+              <div id="tpv-order-top">
+                <div>
+                  <h3 id="tpv-order-table">Mesa #</h3>
+                  <span id="tpv-order-waiter">Mesero: </span>
+                </div>
+                <div class="tpv-order-total">
+                  <span id="tpv-order-amount">0.00€</span>
+                </div>
+              </div>
+              <div id="tpv-menu">
+                <div id="tpv-categories" class="tpv-categories"></div>
+                <div id="tpv-items" class="tpv-items-grid"></div>
+              </div>
+              <div id="tpv-cart">
+                <h4><i class="fas fa-shopping-cart"></i> Cuenta</h4>
+                <div id="tpv-cart-lines"></div>
+                <div class="tpv-cart-total">
+                  <span>Total</span>
+                  <span id="tpv-cart-total">0.00€</span>
+                </div>
+                <div class="tpv-cart-actions">
+                  <button id="btn-kitchen" class="btn btn-warning" onclick="TPV.sendToKitchen()">
+                    <i class="fas fa-fire"></i> Cocina
+                  </button>
+                  <button id="btn-serve" class="btn btn-info" onclick="TPV.serveOrder()">
+                    <i class="fas fa-check"></i> Servir
+                  </button>
+                  <button id="btn-pay" class="btn btn-success" onclick="TPV.showPayment()">
+                    <i class="fas fa-credit-card"></i> Pagar
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="tpv-payment-modal" class="tpv-modal" style="display:none">
+              <div class="tpv-modal-content tpv-pay-modal">
+                <div class="tpv-pay-header">
+                  <h3><i class="fas fa-credit-card"></i> Cobrar pedido</h3>
+                  <span id="pay-order-name"></span>
+                </div>
+                <div id="pay-lines-summary" class="tpv-pay-lines"></div>
+                <div class="tpv-pay-total-line">
+                  <span>Total</span>
+                  <strong id="pay-total"></strong>
+                </div>
+                <div class="tpv-pay-methods">
+                  <label class="tpv-pay-method active" data-method="cash">
+                    <input type="radio" name="method" value="cash" checked="checked" hidden="hidden"/>
+                    <i class="fas fa-money-bill-wave"></i> Efectivo
+                  </label>
+                  <label class="tpv-pay-method" data-method="card">
+                    <input type="radio" name="method" value="card" hidden="hidden"/>
+                    <i class="fas fa-credit-card"></i> Tarjeta
+                  </label>
+                  <label class="tpv-pay-method" data-method="transfer">
+                    <input type="radio" name="method" value="transfer" hidden="hidden"/>
+                    <i class="fas fa-university"></i> Transferencia
+                  </label>
+                </div>
+                <div id="pay-cash-section">
+                  <label>Recibido</label>
+                  <div class="tpv-pay-input-group">
+                    <span class="tpv-pay-currency">€</span>
+                    <input type="number" id="pay-amount" class="form-control" placeholder="0.00" step="0.01" min="0"/>
+                  </div>
+                  <div id="pay-change-row" style="display:none">
+                    <span>Cambio</span>
+                    <strong id="pay-change" class="tpv-change-amount">0.00€</strong>
+                  </div>
+                </div>
+                <div class="tpv-modal-buttons">
+                  <button class="btn btn-secondary" onclick="TPV.closePayment()">Cancelar</button>
+                  <button id="btn-confirm-pay" class="btn btn-primary" onclick="TPV.confirmPayment()">
+                    <i class="fas fa-check"></i> Cobrar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/nexo_restaurant/static/src/js/tpv.js"></script>
+      </body>
+    </html>
+  </template>
+</odoo>

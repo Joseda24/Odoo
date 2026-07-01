@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_ingredient_category_list" model="ir.ui.view">
+    <field name="name">nexo.ingredient.category.list</field>
+    <field name="model">nexo.ingredient.category</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_ingredient_category_form" model="ir.ui.view">
+    <field name="name">nexo.ingredient.category.form</field>
+    <field name="model">nexo.ingredient.category</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_ingredient_list" model="ir.ui.view">
+    <field name="name">nexo.ingredient.list</field>
+    <field name="model">nexo.ingredient</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="category_id"/>
+        <field name="stock_qty"/>
+        <field name="unit"/>
+        <field name="min_stock"/>
+        <field name="cost_unit" widget="monetary"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_ingredient_form" model="ir.ui.view">
+    <field name="name">nexo.ingredient.form</field>
+    <field name="model">nexo.ingredient</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="category_id"/>
+              <field name="unit"/>
+            </group>
+            <group>
+              <field name="stock_qty"/>
+              <field name="min_stock"/>
+              <field name="cost_unit" widget="monetary"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_stock_move_list" model="ir.ui.view">
+    <field name="name">nexo.stock.move.list</field>
+    <field name="model">nexo.stock.move</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="date"/>
+        <field name="ingredient_id"/>
+        <field name="type" widget="badge"/>
+        <field name="quantity"/>
+        <field name="unit"/>
+        <field name="reference"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_stock_move_form" model="ir.ui.view">
+    <field name="name">nexo.stock.move.form</field>
+    <field name="model">nexo.stock.move</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="ingredient_id"/>
+            <field name="type"/>
+            <field name="quantity"/>
+            <field name="reference"/>
+            <field name="date"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

@@ -1,6 +1,6 @@
 {
     'name': 'Nexo Core',
-    'version': '18.0.1.0.1',
+    'version': '18.0.1.0.2',
     'summary': 'Módulo base para todos los proyectos Nexo',
     'category': 'Sales',
     'depends': ['base', 'web', 'uom'],

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- ENTRANTES -->
+  <record id="menu_item_1" model="nexo.menu.item">
+    <field name="name">Croquetas de jamón</field>
+    <field name="category_id" ref="cat_entrantes"/>
+    <field name="price">9.50</field>
+    <field name="cost">4.00</field>
+    <field name="preparation_time">12</field>
+  </record>
+  <record id="menu_item_2" model="nexo.menu.item">
+    <field name="name">Tortilla de patatas</field>
+    <field name="category_id" ref="cat_entrantes"/>
+    <field name="price">8.00</field>
+    <field name="cost">3.00</field>
+    <field name="preparation_time">15</field>
+  </record>
+  <record id="menu_item_3" model="nexo.menu.item">
+    <field name="name">Ensalada mixta</field>
+    <field name="category_id" ref="cat_entrantes"/>
+    <field name="price">7.50</field>
+    <field name="cost">3.50</field>
+    <field name="preparation_time">10</field>
+  </record>
+  <record id="menu_item_4" model="nexo.menu.item">
+    <field name="name">Jamón ibérico</field>
+    <field name="category_id" ref="cat_entrantes"/>
+    <field name="price">14.00</field>
+    <field name="cost">8.00</field>
+    <field name="preparation_time">5</field>
+  </record>
+  <record id="menu_item_5" model="nexo.menu.item">
+    <field name="name">Pimientos de Padrón</field>
+    <field name="category_id" ref="cat_entrantes"/>
+    <field name="price">6.50</field>
+    <field name="cost">2.50</field>
+    <field name="preparation_time">10</field>
+  </record>
+  <record id="menu_item_6" model="nexo.menu.item">
+    <field name="name">Gambas al ajillo</field>
+    <field name="category_id" ref="cat_entrantes"/>
+    <field name="price">11.00</field>
+    <field name="cost">5.50</field>
+    <field name="preparation_time">12</field>
+  </record>
+
+  <!-- PLATOS PRINCIPALES -->
+  <record id="menu_item_7" model="nexo.menu.item">
+    <field name="name">Paella valenciana</field>
+    <field name="category_id" ref="cat_principales"/>
+    <field name="price">15.50</field>
+    <field name="cost">6.00</field>
+    <field name="preparation_time">30</field>
+  </record>
+  <record id="menu_item_8" model="nexo.menu.item">
+    <field name="name">Fabada asturiana</field>
+    <field name="category_id" ref="cat_principales"/>
+    <field name="price">13.00</field>
+    <field name="cost">5.00</field>
+    <field name="preparation_time">25</field>
+  </record>
+  <record id="menu_item_9" model="nexo.menu.item">
+    <field name="name">Entrecot de ternera</field>
+    <field name="category_id" ref="cat_principales"/>
+    <field name="price">18.00</field>
+    <field name="cost">9.00</field>
+    <field name="preparation_time">20</field>
+  </record>
+  <record id="menu_item_10" model="nexo.menu.item">
+    <field name="name">Merluza a la vasca</field>
+    <field name="category_id" ref="cat_principales"/>
+    <field name="price">14.50</field>
+    <field name="cost">6.50</field>
+    <field name="preparation_time">18</field>
+  </record>
+  <record id="menu_item_11" model="nexo.menu.item">
+    <field name="name">Pollo asado con patatas</field>
+    <field name="category_id" ref="cat_principales"/>
+    <field name="price">11.00</field>
+    <field name="cost">4.50</field>
+    <field name="preparation_time">25</field>
+  </record>
+  <record id="menu_item_12" model="nexo.menu.item">
+    <field name="name">Bacalao al pil pil</field>
+    <field name="category_id" ref="cat_principales"/>
+    <field name="price">15.00</field>
+    <field name="cost">7.00</field>
+    <field name="preparation_time">20</field>
+  </record>
+  <record id="menu_item_13" model="nexo.menu.item">
+    <field name="name">Hamburguesa completa</field>
+    <field name="category_id" ref="cat_principales"/>
+    <field name="price">10.50</field>
+    <field name="cost">4.00</field>
+    <field name="preparation_time">15</field>
+  </record>
+  <record id="menu_item_14" model="nexo.menu.item">
+    <field name="name">Pizza margarita</field>
+    <field name="category_id" ref="cat_principales"/>
+    <field name="price">9.00</field>
+    <field name="cost">3.50</field>
+    <field name="preparation_time">15</field>
+  </record>
+
+  <!-- POSTRES -->
+  <record id="menu_item_15" model="nexo.menu.item">
+    <field name="name">Flan de huevo</field>
+    <field name="category_id" ref="cat_postres"/>
+    <field name="price">5.50</field>
+    <field name="cost">2.00</field>
+    <field name="preparation_time">5</field>
+  </record>
+  <record id="menu_item_16" model="nexo.menu.item">
+    <field name="name">Tarta de queso</field>
+    <field name="category_id" ref="cat_postres"/>
+    <field name="price">6.50</field>
+    <field name="cost">2.50</field>
+    <field name="preparation_time">5</field>
+  </record>
+  <record id="menu_item_17" model="nexo.menu.item">
+    <field name="name">Crema catalana</field>
+    <field name="category_id" ref="cat_postres"/>
+    <field name="price">5.50</field>
+    <field name="cost">2.00</field>
+    <field name="preparation_time">8</field>
+  </record>
+  <record id="menu_item_18" model="nexo.menu.item">
+    <field name="name">Churros con chocolate</field>
+    <field name="category_id" ref="cat_postres"/>
+    <field name="price">5.00</field>
+    <field name="cost">1.50</field>
+    <field name="preparation_time">10</field>
+  </record>
+  <record id="menu_item_19" model="nexo.menu.item">
+    <field name="name">Helado artesanal</field>
+    <field name="category_id" ref="cat_postres"/>
+    <field name="price">4.50</field>
+    <field name="cost">1.50</field>
+    <field name="preparation_time">3</field>
+  </record>
+
+  <!-- BEBIDAS -->
+  <record id="menu_item_20" model="nexo.menu.item">
+    <field name="name">Agua mineral</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">1.80</field>
+    <field name="cost">0.50</field>
+    <field name="preparation_time">2</field>
+  </record>
+  <record id="menu_item_21" model="nexo.menu.item">
+    <field name="name">Cerveza caña</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">2.50</field>
+    <field name="cost">0.80</field>
+    <field name="preparation_time">2</field>
+  </record>
+  <record id="menu_item_22" model="nexo.menu.item">
+    <field name="name">Vino tinto copa</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">3.50</field>
+    <field name="cost">1.20</field>
+    <field name="preparation_time">2</field>
+  </record>
+  <record id="menu_item_23" model="nexo.menu.item">
+    <field name="name">Vino blanco copa</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">3.50</field>
+    <field name="cost">1.20</field>
+    <field name="preparation_time">2</field>
+  </record>
+  <record id="menu_item_24" model="nexo.menu.item">
+    <field name="name">Refrescos</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">2.00</field>
+    <field name="cost">0.60</field>
+    <field name="preparation_time">2</field>
+  </record>
+  <record id="menu_item_25" model="nexo.menu.item">
+    <field name="name">Café solo</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">1.50</field>
+    <field name="cost">0.30</field>
+    <field name="preparation_time">3</field>
+  </record>
+  <record id="menu_item_26" model="nexo.menu.item">
+    <field name="name">Cortado</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">1.60</field>
+    <field name="cost">0.35</field>
+    <field name="preparation_time">3</field>
+  </record>
+  <record id="menu_item_27" model="nexo.menu.item">
+    <field name="name">Té</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">1.80</field>
+    <field name="cost">0.40</field>
+    <field name="preparation_time">4</field>
+  </record>
+  <record id="menu_item_28" model="nexo.menu.item">
+    <field name="name">Zumo natural</field>
+    <field name="category_id" ref="cat_bebidas"/>
+    <field name="price">3.00</field>
+    <field name="cost">1.00</field>
+    <field name="preparation_time">5</field>
+  </record>
+</odoo>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_restaurant_area_list" model="ir.ui.view">
+    <field name="name">nexo.restaurant.area.list</field>
+    <field name="model">nexo.restaurant.area</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_restaurant_area_form" model="ir.ui.view">
+    <field name="name">nexo.restaurant.area.form</field>
+    <field name="model">nexo.restaurant.area</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name"/>
+          </group>
+          <field name="table_ids">
+            <list>
+              <field name="name"/>
+              <field name="capacity"/>
+              <field name="status" widget="badge"/>
+            </list>
+          </field>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_restaurant_table_list" model="ir.ui.view">
+    <field name="name">nexo.restaurant.table.list</field>
+    <field name="model">nexo.restaurant.table</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="area_id"/>
+        <field name="capacity"/>
+        <field name="status" widget="badge"/>
+        <field name="current_order_id"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_restaurant_table_form" model="ir.ui.view">
+    <field name="name">nexo.restaurant.table.form</field>
+    <field name="model">nexo.restaurant.table</field>
+    <field name="arch" type="xml">
+      <form>
+        <field name="status" widget="statusbar"/>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="area_id"/>
+            <field name="capacity"/>
+            <field name="current_order_id"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_restaurant_table_kanban" model="ir.ui.view">
+    <field name="name">nexo.restaurant.table.kanban.tpv</field>
+    <field name="model">nexo.restaurant.table</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_mobile">
+        <field name="name"/>
+        <field name="status"/>
+        <field name="capacity"/>
+        <field name="area_id"/>
+        <field name="current_order_id"/>
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_global_click">
+              <div class="o_kanban_card_header"/>
+              <div class="oe_kanban_content text-center py-3">
+                <h2><field name="name"/></h2>
+                <div t-att-class="'badge fs-5 mb-2 ' + (record.status.raw_value == 'free' and 'bg-success' or record.status.raw_value == 'occupied' and 'bg-danger' or 'bg-warning')">
+                  <field name="status"/>
+                </div>
+                <small><field name="capacity"/> personas</small>
+                <div class="mt-2" t-if="record.current_order_id.raw_value">
+                  <button type="object" name="action_new_order" class="btn btn-sm btn-outline-primary">Abrir pedido</button>
+                </div>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+</odoo>

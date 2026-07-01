@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexo_menu_category,nexo.menu.category,model_nexo_menu_category,base.group_user,1,1,1,1
+access_nexo_menu_item,nexo.menu.item,model_nexo_menu_item,base.group_user,1,1,1,1
+access_nexo_restaurant_table,nexo.restaurant.table,model_nexo_restaurant_table,base.group_user,1,1,1,1
+access_nexo_restaurant_area,nexo.restaurant.area,model_nexo_restaurant_area,base.group_user,1,1,1,1
+access_nexo_restaurant_order,nexo.restaurant.order,model_nexo_restaurant_order,base.group_user,1,1,1,1
+access_nexo_restaurant_order_line,nexo.restaurant.order.line,model_nexo_restaurant_order_line,base.group_user,1,1,1,1
+access_nexo_restaurant_payment,nexo.restaurant.payment,model_nexo_restaurant_payment,base.group_user,1,1,1,1
+access_nexo_ingredient_category,nexo.ingredient.category,model_nexo_ingredient_category,base.group_user,1,1,1,1
+access_nexo_ingredient,nexo.ingredient,model_nexo_ingredient,base.group_user,1,1,1,1
+access_nexo_stock_move,nexo.stock.move,model_nexo_stock_move,base.group_user,1,1,1,1
+access_nexo_recipe_line,nexo.recipe.line,model_nexo_recipe_line,base.group_user,1,1,1,1

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="action_nexo_restaurant_tpv" model="ir.actions.act_url">
+    <field name="name">TPV</field>
+    <field name="url">/restaurant/tpv</field>
+    <field name="target">new</field>
+  </record>
+
+  <record id="action_nexo_menu_category" model="ir.actions.act_window">
+    <field name="name">Categorías</field>
+    <field name="res_model">nexo.menu.category</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_menu_item" model="ir.actions.act_window">
+    <field name="name">Carta</field>
+    <field name="res_model">nexo.menu.item</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_restaurant_table" model="ir.actions.act_window">
+    <field name="name">Mesas</field>
+    <field name="res_model">nexo.restaurant.table</field>
+    <field name="view_mode">kanban,list,form</field>
+  </record>
+
+  <record id="action_nexo_restaurant_area" model="ir.actions.act_window">
+    <field name="name">Áreas</field>
+    <field name="res_model">nexo.restaurant.area</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_restaurant_order" model="ir.actions.act_window">
+    <field name="name">Pedidos</field>
+    <field name="res_model">nexo.restaurant.order</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_ingredient" model="ir.actions.act_window">
+    <field name="name">Ingredientes</field>
+    <field name="res_model">nexo.ingredient</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_ingredient_category" model="ir.actions.act_window">
+    <field name="name">Categorías</field>
+    <field name="res_model">nexo.ingredient.category</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_stock_move" model="ir.actions.act_window">
+    <field name="name">Movimientos</field>
+    <field name="res_model">nexo.stock.move</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <menuitem id="menu_nexo_restaurant_root" name="Restaurante" sequence="50"/>
+  <menuitem id="menu_nexo_restaurant_tpv" name="TPV" parent="menu_nexo_restaurant_root" sequence="5"
+            action="action_nexo_restaurant_tpv"/>
+  <menuitem id="menu_nexo_restaurant_mesas" name="Mesas" parent="menu_nexo_restaurant_root" sequence="10"
+            action="action_nexo_restaurant_table"/>
+  <menuitem id="menu_nexo_restaurant_areas" name="Áreas" parent="menu_nexo_restaurant_root" sequence="20"
+            action="action_nexo_restaurant_area"/>
+  <menuitem id="menu_nexo_restaurant_orders" name="Pedidos" parent="menu_nexo_restaurant_root" sequence="30"
+            action="action_nexo_restaurant_order"/>
+
+  <menuitem id="menu_nexo_restaurant_carta" name="Carta" parent="menu_nexo_restaurant_root" sequence="40"/>
+  <menuitem id="menu_nexo_restaurant_menu_items" name="Artículos" parent="menu_nexo_restaurant_carta" sequence="10"
+            action="action_nexo_menu_item"/>
+  <menuitem id="menu_nexo_restaurant_menu_categories" name="Categorías" parent="menu_nexo_restaurant_carta" sequence="20"
+            action="action_nexo_menu_category"/>
+
+  <menuitem id="menu_nexo_restaurant_stock" name="Stock" parent="menu_nexo_restaurant_root" sequence="50"/>
+  <menuitem id="menu_nexo_restaurant_ingredients" name="Ingredientes" parent="menu_nexo_restaurant_stock" sequence="10"
+            action="action_nexo_ingredient"/>
+  <menuitem id="menu_nexo_restaurant_ingredient_categories" name="Categorías" parent="menu_nexo_restaurant_stock" sequence="20"
+            action="action_nexo_ingredient_category"/>
+  <menuitem id="menu_nexo_restaurant_stock_moves" name="Movimientos" parent="menu_nexo_restaurant_stock" sequence="30"
+            action="action_nexo_stock_move"/>
+</odoo>

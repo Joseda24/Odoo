@@ -1,0 +1,22 @@
+{
+    'name': 'Restaurante',
+    'version': '18.0.1.1.1',
+    'summary': 'Gestión de restaurante: carta, TPV, stock',
+    'category': 'Sales',
+    'depends': ['nexo_core', 'mail', 'web'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/nexo_sequence_data.xml',
+        'data/nexo_menu_data.xml',
+        'views/nexo_menu_views.xml',
+        'views/nexo_table_views.xml',
+        'views/nexo_order_views.xml',
+        'views/nexo_ingredient_views.xml',
+        'views/nexo_recipe_views.xml',
+        'views/nexo_tpv_templates.xml',
+        'views/nexo_menus.xml',
+    ],
+        'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}

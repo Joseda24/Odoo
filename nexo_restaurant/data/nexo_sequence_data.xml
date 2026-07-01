@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="seq_nexo_restaurant_order" model="nexo.sequence">
+    <field name="code">ORD</field>
+    <field name="name">Pedidos restaurante</field>
+    <field name="prefix">ORD-</field>
+    <field name="padding">4</field>
+  </record>
+</odoo>

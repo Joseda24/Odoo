@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <menuitem id="menu_nexo_root" name="Dashboard" sequence="100" action="nexo_dealer.action_nexo_dealer_dashboard"/>
-
-  <menuitem id="menu_nexo_crm" name="CRM" parent="menu_nexo_root" sequence="10"/>
-  <menuitem id="menu_nexo_sales" name="Ventas" parent="menu_nexo_root" sequence="20"/>
-  <menuitem id="menu_nexo_purchases" name="Compras" parent="menu_nexo_root" sequence="30"/>
-  <menuitem id="menu_nexo_inventory" name="Inventario" parent="menu_nexo_root" sequence="40"/>
-  <menuitem id="menu_nexo_invoicing" name="Facturación" parent="menu_nexo_root" sequence="50"/>
-
-  <menuitem id="menu_nexo_partners" name="Clientes / Proveedores" parent="menu_nexo_crm" sequence="10"/>
-  <menuitem id="menu_nexo_products" name="Productos" parent="menu_nexo_inventory" sequence="10"/>
-  <menuitem id="menu_nexo_product_categories" name="Categorías de producto" parent="menu_nexo_inventory" sequence="20"/>
-
-  <menuitem id="menu_nexo_sale_orders" name="Pedidos de venta" parent="menu_nexo_sales" sequence="10"/>
-  <menuitem id="menu_nexo_purchase_orders" name="Órdenes de compra" parent="menu_nexo_purchases" sequence="10"/>
-  <menuitem id="menu_nexo_invoices" name="Facturas" parent="menu_nexo_invoicing" sequence="10"/>
-
-  <menuitem id="menu_nexo_sequence" name="Secuencias" parent="menu_nexo_root" sequence="999"/>
+  <record id="action_nexo_root" model="ir.actions.act_window">
+    <field name="name">Nexo</field>
+    <field name="res_model">nexo.sequence</field>
+    <field name="view_mode">list,form</field>
+  </record>
 </odoo>
