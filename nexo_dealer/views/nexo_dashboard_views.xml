@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_dealer_dashboard_form" model="ir.ui.view">
+    <field name="name">nexo.dealer.dashboard.form</field>
+    <field name="model">nexo.dealer.dashboard</field>
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet>
+          <div class="o_dashboard">
+            <div class="o_dashboard_header">
+              <h1>Dashboard - Concesionario</h1>
+            </div>
+            <div class="o_dashboard_cards row mb-4">
+              <div class="col-lg-3 col-md-6">
+                <div class="card bg-primary text-white">
+                  <div class="card-body text-center py-3">
+                    <h5 class="card-title">Catálogo</h5>
+                    <h2><field name="total_vehicles"/></h2>
+                    <small><field name="available_vehicles"/> disponibles</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="card bg-success text-white">
+                  <div class="card-body text-center py-3">
+                    <h5 class="card-title">Ventas del mes</h5>
+                    <h2><field name="sold_month"/></h2>
+                    <small>$ <field name="sales_amount_month"/></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="card bg-warning text-white">
+                  <div class="card-body text-center py-3">
+                    <h5 class="card-title">Servicios pend.</h5>
+                    <h2><field name="pending_services"/></h2>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="card bg-info text-white">
+                  <div class="card-body text-center py-3">
+                    <h5 class="card-title">Pruebas hoy</h5>
+                    <h2><field name="today_test_drives"/></h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-md-8">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Ventas Mensuales</h5>
+                    <div class="nexo-chart" data-chart="sales" style="height:250px;width:100%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Estado Vehículos</h5>
+                    <div class="nexo-chart" data-chart="status" style="height:250px;width:100%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Top Marcas</h5>
+                    <div class="nexo-chart" data-chart="brands" style="height:250px;width:100%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Servicios Mensuales</h5>
+                    <div class="nexo-chart" data-chart="services" style="height:250px;width:100%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <field name="chart_sales_monthly" invisible="1"/>
+            <field name="chart_vehicle_status" invisible="1"/>
+            <field name="chart_brand_distribution" invisible="1"/>
+            <field name="chart_services_monthly" invisible="1"/>
+          </div>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

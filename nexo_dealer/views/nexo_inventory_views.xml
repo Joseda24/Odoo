@@ -6,11 +6,12 @@
     <field name="arch" type="xml">
       <list>
         <field name="name"/>
-        <field name="date_in"/>
         <field name="vehicle_id"/>
+        <field name="date_in"/>
         <field name="type"/>
-        <field name="cost_price"/>
+        <field name="cost"/>
         <field name="supplier_id"/>
+        <field name="purchase_order_id"/>
         <field name="state" widget="badge"/>
       </list>
     </field>
@@ -22,22 +23,31 @@
     <field name="arch" type="xml">
       <form>
         <header>
-          <field name="state" widget="statusbar"/>
+          <button name="action_done" string="Registrar ingreso" type="object" class="btn-primary"
+                  invisible="state != 'draft'"/>
+          <button name="action_cancel" string="Cancelar" type="object"
+                  invisible="state != 'draft'"/>
         </header>
         <sheet>
           <div class="oe_title">
             <h1><field name="name"/></h1>
           </div>
           <group>
-            <field name="date_in"/>
-            <field name="vehicle_id"/>
-            <field name="type"/>
-            <field name="cost_price"/>
-            <field name="supplier_id"/>
+            <group>
+              <field name="vehicle_id"/>
+              <field name="type"/>
+              <field name="date_in"/>
+            </group>
+            <group>
+              <field name="cost"/>
+              <field name="supplier_id"/>
+              <field name="purchase_order_id"/>
+            </group>
           </group>
-          <group string="Notas">
+          <group>
             <field name="notes"/>
           </group>
+          <field name="state" widget="statusbar"/>
         </sheet>
       </form>
     </field>

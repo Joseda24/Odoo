@@ -1,5 +1,4 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
 
 
 class NexoVehicleInventory(models.Model):
@@ -15,9 +14,11 @@ class NexoVehicleInventory(models.Model):
         ('consignment', 'Consignación'),
         ('transfer', 'Transferencia'),
         ('return', 'Devolución'),
+        ('trade_in', 'Trade-in'),
     ], 'Tipo de ingreso', default='purchase', required=True)
-    cost_price = fields.Float('Costo de adquisición', required=True)
+    cost = fields.Float('Costo de adquisición', required=True)
     supplier_id = fields.Many2one('nexo.partner', 'Proveedor / Origen')
+    purchase_order_id = fields.Many2one('nexo.purchase.order', 'Orden de compra')
     notes = fields.Text('Notas')
     state = fields.Selection([
         ('draft', 'Borrador'),
@@ -30,6 +31,15 @@ class NexoVehicleInventory(models.Model):
         for rec in self:
             rec.state = 'done'
             rec.vehicle_id.vehicle_status = 'available'
+            rec.vehicle_id.acquisition_date = rec.date_in
+            self.env['nexo.vehicle.history'].log(
+                vehicle_id=rec.vehicle_id.id,
+                type='acquisition',
+                description=f'Ingreso por {dict(rec._fields["type"].selection).get(rec.type)}',
+                cost=rec.cost,
+                partner_id=rec.supplier_id.id,
+                reference=rec.name,
+            )
 
     def action_cancel(self):
         for rec in self:

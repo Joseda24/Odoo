@@ -5,9 +5,26 @@
     <field name="model">nexo.sale.order</field>
     <field name="inherit_id" ref="nexo_core.view_nexo_sale_order_form"/>
     <field name="arch" type="xml">
+      <field name="state" position="after">
+        <field name="quotation"/>
+      </field>
+      <field name="state" position="after">
+        <button name="action_quote_to_order" string="Convertir a pedido" type="object"
+                class="btn-primary" invisible="not quotation"/>
+      </field>
       <field name="partner_id" position="after">
         <field name="vehicle_id"/>
         <field name="vehicle_vin"/>
+        <field name="salesperson_id"/>
+        <field name="payment_method"/>
+        <field name="delivery_date"/>
+      </field>
+      <field name="notes" position="after">
+        <group string="Cotización">
+          <field name="quotation"/>
+          <field name="validity_days" invisible="not quotation"/>
+          <field name="trade_in_ids"/>
+        </group>
       </field>
     </field>
   </record>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_employee_form" model="ir.ui.view">
+    <field name="name">nexo.employee.form</field>
+    <field name="model">nexo.employee</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <group>
+              <field name="code"/>
+              <field name="position"/>
+              <field name="phone"/>
+              <field name="email"/>
+              <field name="user_id"/>
+            </group>
+            <group>
+              <field name="commission_type"/>
+              <field name="commission_rate" invisible="commission_type != 'percentage'"/>
+              <field name="fixed_commission" invisible="commission_type != 'fixed'"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_employee_list" model="ir.ui.view">
+    <field name="name">nexo.employee.list</field>
+    <field name="model">nexo.employee</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="code"/>
+        <field name="position"/>
+        <field name="phone"/>
+        <field name="email"/>
+        <field name="commission_rate"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_commission_form" model="ir.ui.view">
+    <field name="name">nexo.commission.form</field>
+    <field name="model">nexo.commission</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <group>
+              <field name="employee_id"/>
+              <field name="sale_order_id"/>
+              <field name="vehicle_id"/>
+            </group>
+            <group>
+              <field name="date"/>
+              <field name="base_amount"/>
+              <field name="rate"/>
+              <field name="amount"/>
+              <field name="paid"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_commission_list" model="ir.ui.view">
+    <field name="name">nexo.commission.list</field>
+    <field name="model">nexo.commission</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="employee_id"/>
+        <field name="sale_order_id"/>
+        <field name="date"/>
+        <field name="base_amount"/>
+        <field name="rate"/>
+        <field name="amount"/>
+        <field name="paid"/>
+      </list>
+    </field>
+  </record>
+</odoo>

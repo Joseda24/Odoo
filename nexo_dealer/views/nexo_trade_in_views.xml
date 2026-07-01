@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_trade_in_list" model="ir.ui.view">
+    <field name="name">nexo.vehicle.trade.in.list</field>
+    <field name="model">nexo.vehicle.trade_in</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="date"/>
+        <field name="partner_id"/>
+        <field name="incoming_vehicle_id"/>
+        <field name="agreed_value"/>
+        <field name="condition"/>
+        <field name="state" widget="badge"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_trade_in_form" model="ir.ui.view">
+    <field name="name">nexo.vehicle.trade.in.form</field>
+    <field name="model">nexo.vehicle.trade_in</field>
+    <field name="arch" type="xml">
+      <form>
+        <field name="state" widget="statusbar"/>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <group>
+              <field name="partner_id"/>
+              <field name="date"/>
+              <field name="incoming_vehicle_id"/>
+              <field name="sale_order_id"/>
+            </group>
+            <group>
+              <field name="agreed_value"/>
+              <field name="market_value"/>
+              <field name="condition"/>
+            </group>
+          </group>
+          <group string="Evaluación">
+            <field name="notes"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

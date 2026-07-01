@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_financing_plan_form" model="ir.ui.view">
+    <field name="name">nexo.financing.plan.form</field>
+    <field name="model">nexo.financing.plan</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="months"/>
+            <field name="interest_rate"/>
+            <field name="down_payment_percent"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_financing_plan_list" model="ir.ui.view">
+    <field name="name">nexo.financing.plan.list</field>
+    <field name="model">nexo.financing.plan</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="months"/>
+        <field name="interest_rate"/>
+        <field name="down_payment_percent"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_financing_request_form" model="ir.ui.view">
+    <field name="name">nexo.financing.request.form</field>
+    <field name="model">nexo.financing.request</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_submit" string="Enviar a revisión" type="object" class="btn-primary"/>
+          <button name="action_approve" string="Aprobar" type="object" class="btn-success"/>
+          <button name="action_reject" string="Rechazar" type="object" class="btn-danger"/>
+          <button name="action_activate" string="Activar" type="object" class="btn-primary"/>
+          <button name="action_mark_paid" string="Marcar pagado" type="object" class="btn-success"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <group>
+              <field name="partner_id"/>
+              <field name="vehicle_id"/>
+              <field name="sale_order_id"/>
+            </group>
+            <group>
+              <field name="plan_id"/>
+              <field name="salesperson_id"/>
+              <field name="date"/>
+              <field name="status" widget="statusbar"/>
+            </group>
+          </group>
+          <group string="Montos">
+            <group>
+              <field name="vehicle_price"/>
+              <field name="down_payment"/>
+              <field name="financed_amount"/>
+            </group>
+            <group>
+              <field name="monthly_payment"/>
+              <field name="total_interest"/>
+              <field name="total_payable"/>
+            </group>
+          </group>
+          <group>
+            <field name="notes"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_financing_request_list" model="ir.ui.view">
+    <field name="name">nexo.financing.request.list</field>
+    <field name="model">nexo.financing.request</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="partner_id"/>
+        <field name="vehicle_id"/>
+        <field name="plan_id"/>
+        <field name="financed_amount"/>
+        <field name="monthly_payment"/>
+        <field name="status" widget="badge"/>
+      </list>
+    </field>
+  </record>
+</odoo>

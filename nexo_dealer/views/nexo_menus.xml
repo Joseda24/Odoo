@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <menuitem id="menu_nexo_dealer" name="Concesionario" parent="nexo_core.menu_nexo_root" sequence="15"/>
-  <menuitem id="menu_nexo_vehicle_brands" name="Marcas" parent="menu_nexo_dealer" sequence="10"/>
-  <menuitem id="menu_nexo_vehicle_models" name="Modelos" parent="menu_nexo_dealer" sequence="20"/>
-  <menuitem id="menu_nexo_vehicles" name="Vehículos" parent="menu_nexo_dealer" sequence="30"/>
-  <menuitem id="menu_nexo_vehicle_inventory" name="Inventario" parent="menu_nexo_dealer" sequence="25"/>
-  <menuitem id="menu_nexo_vehicle_service" name="Taller" parent="menu_nexo_dealer" sequence="40"/>
+  <!-- Actions (must be before menuitems) -->
+  <record id="action_nexo_dealer_dashboard" model="ir.actions.act_window">
+    <field name="name">Dashboard</field>
+    <field name="res_model">nexo.dealer.dashboard</field>
+    <field name="view_mode">form</field>
+    <field name="target">inline</field>
+  </record>
 
   <record id="action_nexo_vehicle_brand" model="ir.actions.act_window">
     <field name="name">Marcas</field>
@@ -22,7 +23,7 @@
   <record id="action_nexo_vehicle" model="ir.actions.act_window">
     <field name="name">Vehículos</field>
     <field name="res_model">nexo.vehicle</field>
-    <field name="view_mode">list,form</field>
+    <field name="view_mode">kanban,list,form</field>
   </record>
 
   <record id="action_nexo_vehicle_inventory" model="ir.actions.act_window">
@@ -34,6 +35,127 @@
   <record id="action_nexo_vehicle_service_order" model="ir.actions.act_window">
     <field name="name">Órdenes de servicio</field>
     <field name="res_model">nexo.vehicle.service.order</field>
+    <field name="view_mode">list,form,calendar</field>
+  </record>
+
+  <record id="action_nexo_test_drive" model="ir.actions.act_window">
+    <field name="name">Pruebas de manejo</field>
+    <field name="res_model">nexo.vehicle.test.drive</field>
+    <field name="view_mode">list,form,calendar</field>
+  </record>
+
+  <record id="action_nexo_trade_in" model="ir.actions.act_window">
+    <field name="name">Trade-ins</field>
+    <field name="res_model">nexo.vehicle.trade_in</field>
     <field name="view_mode">list,form</field>
   </record>
+
+  <record id="action_nexo_vehicle_history" model="ir.actions.act_window">
+    <field name="name">Historial</field>
+    <field name="res_model">nexo.vehicle.history</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_lead" model="ir.actions.act_window">
+    <field name="name">Leads / Oportunidades</field>
+    <field name="res_model">nexo.lead</field>
+    <field name="view_mode">kanban,list,form</field>
+  </record>
+
+  <record id="action_nexo_crm_stage" model="ir.actions.act_window">
+    <field name="name">Etapas</field>
+    <field name="res_model">nexo.crm.stage</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_employee" model="ir.actions.act_window">
+    <field name="name">Empleados</field>
+    <field name="res_model">nexo.employee</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_commission" model="ir.actions.act_window">
+    <field name="name">Comisiones</field>
+    <field name="res_model">nexo.commission</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_purchase_request" model="ir.actions.act_window">
+    <field name="name">Solicitudes de compra (RFQ)</field>
+    <field name="res_model">nexo.purchase.request</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_part" model="ir.actions.act_window">
+    <field name="name">Refacciones</field>
+    <field name="res_model">nexo.part</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_part_move" model="ir.actions.act_window">
+    <field name="name">Movimientos</field>
+    <field name="res_model">nexo.part.move</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_financing_plan" model="ir.actions.act_window">
+    <field name="name">Planes</field>
+    <field name="res_model">nexo.financing.plan</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_financing_request" model="ir.actions.act_window">
+    <field name="name">Solicitudes</field>
+    <field name="res_model">nexo.financing.request</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_reminder" model="ir.actions.act_window">
+    <field name="name">Recordatorios</field>
+    <field name="res_model">nexo.reminder</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_nexo_reminder_cron" model="ir.actions.act_window">
+    <field name="name">Configuración</field>
+    <field name="res_model">nexo.reminder.cron</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <!-- Menus -->
+  <menuitem id="menu_nexo_dealer" name="Concesionario" parent="nexo_core.menu_nexo_root" sequence="15"/>
+  <menuitem id="menu_nexo_dealer_dashboard" name="Dashboard" parent="menu_nexo_dealer" sequence="1" action="action_nexo_dealer_dashboard"/>
+
+  <menuitem id="menu_nexo_crm" name="CRM" parent="menu_nexo_dealer" sequence="5"/>
+  <menuitem id="menu_nexo_leads" name="Leads / Oportunidades" parent="menu_nexo_crm" sequence="10" action="action_nexo_lead"/>
+  <menuitem id="menu_nexo_crm_stages" name="Etapas del pipeline" parent="menu_nexo_crm" sequence="20" action="action_nexo_crm_stage"/>
+
+  <menuitem id="menu_nexo_vehicle_catalog" name="Catálogo" parent="menu_nexo_dealer" sequence="10"/>
+  <menuitem id="menu_nexo_vehicle_brands" name="Marcas" parent="menu_nexo_vehicle_catalog" sequence="10" action="action_nexo_vehicle_brand"/>
+  <menuitem id="menu_nexo_vehicle_models" name="Modelos" parent="menu_nexo_vehicle_catalog" sequence="20" action="action_nexo_vehicle_model"/>
+  <menuitem id="menu_nexo_vehicles" name="Vehículos" parent="menu_nexo_dealer" sequence="30" action="action_nexo_vehicle"/>
+  <menuitem id="menu_nexo_vehicle_inventory" name="Inventario" parent="menu_nexo_dealer" sequence="25" action="action_nexo_vehicle_inventory"/>
+  <menuitem id="menu_nexo_test_drives" name="Pruebas de manejo" parent="menu_nexo_dealer" sequence="35" action="action_nexo_test_drive"/>
+  <menuitem id="menu_nexo_trade_ins" name="Trade-ins" parent="menu_nexo_dealer" sequence="37" action="action_nexo_trade_in"/>
+  <menuitem id="menu_nexo_vehicle_service" name="Taller" parent="menu_nexo_dealer" sequence="40" action="action_nexo_vehicle_service_order"/>
+  <menuitem id="menu_nexo_vehicle_history" name="Historial" parent="menu_nexo_dealer" sequence="50" action="action_nexo_vehicle_history"/>
+
+  <menuitem id="menu_nexo_finance" name="Financiamiento" parent="menu_nexo_dealer" sequence="55"/>
+  <menuitem id="menu_nexo_financing_plans" name="Planes" parent="menu_nexo_finance" sequence="10" action="action_nexo_financing_plan"/>
+  <menuitem id="menu_nexo_financing_requests" name="Solicitudes" parent="menu_nexo_finance" sequence="20" action="action_nexo_financing_request"/>
+
+  <menuitem id="menu_nexo_compras" name="Compras" parent="menu_nexo_dealer" sequence="60"/>
+  <menuitem id="menu_nexo_purchase_requests" name="Solicitudes (RFQ)" parent="menu_nexo_compras" sequence="10" action="action_nexo_purchase_request"/>
+
+  <menuitem id="menu_nexo_parts" name="Refacciones" parent="menu_nexo_dealer" sequence="65"/>
+  <menuitem id="menu_nexo_part_list" name="Catálogo de refacciones" parent="menu_nexo_parts" sequence="10" action="action_nexo_part"/>
+  <menuitem id="menu_nexo_part_moves" name="Movimientos" parent="menu_nexo_parts" sequence="20" action="action_nexo_part_move"/>
+
+  <menuitem id="menu_nexo_hr" name="RRHH" parent="menu_nexo_dealer" sequence="70"/>
+  <menuitem id="menu_nexo_employees" name="Empleados" parent="menu_nexo_hr" sequence="10" action="action_nexo_employee"/>
+  <menuitem id="menu_nexo_commissions" name="Comisiones" parent="menu_nexo_hr" sequence="20" action="action_nexo_commission"/>
+
+  <menuitem id="menu_nexo_notify" name="Recordatorios" parent="menu_nexo_dealer" sequence="75"/>
+  <menuitem id="menu_nexo_reminders" name="Recordatorios" parent="menu_nexo_notify" sequence="10" action="action_nexo_reminder"/>
+  <menuitem id="menu_nexo_reminder_cron" name="Configuración automática" parent="menu_nexo_notify" sequence="20" action="action_nexo_reminder_cron"/>
 </odoo>

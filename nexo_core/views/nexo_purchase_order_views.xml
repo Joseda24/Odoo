@@ -19,9 +19,7 @@
     <field name="model">nexo.purchase.order</field>
     <field name="arch" type="xml">
       <form>
-        <header>
-          <field name="state" widget="statusbar"/>
-        </header>
+        <field name="state" widget="statusbar"/>
         <sheet>
           <div class="oe_title">
             <h1><field name="name"/></h1>

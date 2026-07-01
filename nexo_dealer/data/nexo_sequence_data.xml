@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+  <record id="seq_rfq" model="nexo.sequence">
+    <field name="name">RFQ</field>
+    <field name="code">RFQ</field>
+    <field name="prefix">RFQ-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+
+  <record id="seq_commission" model="nexo.sequence">
+    <field name="name">Comisión</field>
+    <field name="code">COM</field>
+    <field name="prefix">COM-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+
+  <record id="seq_financing" model="nexo.sequence">
+    <field name="name">Financiamiento</field>
+    <field name="code">FIN</field>
+    <field name="prefix">FIN-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+
+  <record id="seq_part_move" model="nexo.sequence">
+    <field name="name">Movimiento refacción</field>
+    <field name="code">MOV</field>
+    <field name="prefix">MOV-</field>
+    <field name="padding">5</field>
+    <field name="next_number">1</field>
+  </record>
+</odoo>

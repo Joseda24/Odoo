@@ -12,6 +12,14 @@ class NexoVehicleServiceOrder(models.Model):
     partner_id = fields.Many2one('nexo.partner', 'Cliente', required=True)
     date_in = fields.Datetime('Fecha de ingreso', default=fields.Datetime.now, required=True)
     date_out = fields.Datetime('Fecha de salida')
+    odometer_in = fields.Float('Kilometraje ingreso')
+    odometer_out = fields.Float('Kilometraje salida')
+    priority = fields.Selection([
+        ('low', 'Baja'),
+        ('normal', 'Normal'),
+        ('high', 'Alta'),
+        ('urgent', 'Urgente'),
+    ], 'Prioridad', default='normal')
     state = fields.Selection([
         ('draft', 'Borrador'),
         ('in_progress', 'En proceso'),
@@ -46,6 +54,15 @@ class NexoVehicleServiceOrder(models.Model):
                 raise UserError('Solo órdenes en progreso pueden finalizarse')
             order.date_out = fields.Datetime.now()
             order.state = 'done'
+            self.env['nexo.vehicle.history'].log(
+                vehicle_id=order.vehicle_id.id,
+                type='service',
+                description=f'Servicio completado: {order.name}',
+                cost=order.amount_total,
+                odometer=order.odometer_out or 0,
+                partner_id=order.partner_id.id,
+                reference=order.name,
+            )
 
     def action_invoice(self):
         for order in self:
@@ -59,7 +76,7 @@ class NexoVehicleServiceOrder(models.Model):
                 raise UserError('No se puede cancelar una orden facturada')
             order.state = 'cancel'
 
-    @api.onchange('vehicle_id')
+    @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'Nuevo') == 'Nuevo':

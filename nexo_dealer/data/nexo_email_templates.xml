@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="email_template_sale_confirmation" model="mail.template">
+    <field name="name">Confirmación de venta - Concesionario</field>
+    <field name="model_id" ref="model_nexo_sale_order"/>
+    <field name="subject">Confirmación de compra - ${object.name}</field>
+    <field name="email_from">${object.company_id.email or ''}</field>
+    <field name="partner_to">${object.partner_id.email}</field>
+    <field name="body_html"><![CDATA[
+<p>Estimado <b>${object.partner_id.name}</b>,</p>
+<p>Gracias por tu compra. Confirmamos tu pedido <b>${object.name}</b>.</p>
+<p t-if="object.vehicle_id">
+  <b>Vehículo:</b> ${object.vehicle_id.name}<br/>
+  <b>VIN:</b> ${object.vehicle_id.vin}<br/>
+  <b>Total:</b> $ ${object.amount_total}
+</p>
+<p t-if="object.delivery_date"><b>Fecha de entrega:</b> ${object.delivery_date}</p>
+<p>Saludos,<br/>${object.company_id.name or 'Concesionario'}</p>
+]]></field>
+  </record>
+
+  <record id="email_template_quotation" model="mail.template">
+    <field name="name">Cotización - Concesionario</field>
+    <field name="model_id" ref="model_nexo_sale_order"/>
+    <field name="subject">Cotización ${object.name}</field>
+    <field name="email_from">${object.company_id.email or ''}</field>
+    <field name="partner_to">${object.partner_id.email}</field>
+    <field name="body_html"><![CDATA[
+<p>Estimado <b>${object.partner_id.name}</b>,</p>
+<p>Adjuntamos la cotización <b>${object.name}</b>.</p>
+<p t-if="object.vehicle_id">
+  <b>Vehículo:</b> ${object.vehicle_id.name}<br/>
+  <b>VIN:</b> ${object.vehicle_id.vin}<br/>
+  <b>Total:</b> $ ${object.amount_total}
+</p>
+<p t-if="object.validity_days">Válida por ${object.validity_days} días.</p>
+<p>Saludos,<br/>${object.company_id.name or 'Concesionario'}</p>
+]]></field>
+  </record>
+
+  <record id="email_template_service_done" model="mail.template">
+    <field name="name">Servicio completado - Concesionario</field>
+    <field name="model_id" ref="model_nexo_vehicle_service_order"/>
+    <field name="subject">Servicio completado - ${object.name}</field>
+    <field name="email_from">${object.company_id.email or ''}</field>
+    <field name="partner_to">${object.partner_id.email}</field>
+    <field name="body_html"><![CDATA[
+<p>Estimado <b>${object.partner_id.name}</b>,</p>
+<p>El servicio de tu vehículo ha sido completado.</p>
+<p>
+  <b>Orden:</b> ${object.name}<br/>
+  <b>Vehículo:</b> ${object.vehicle_id.name}<br/>
+  <b>Total:</b> $ ${object.amount_total}
+</p>
+<p>Puedes pasar a recogerlo.</p>
+<p>Saludos,<br/>${object.company_id.name or 'Taller'}</p>
+]]></field>
+  </record>
+</odoo>

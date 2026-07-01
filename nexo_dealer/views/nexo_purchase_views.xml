@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_purchase_request_form" model="ir.ui.view">
+    <field name="name">nexo.purchase.request.form</field>
+    <field name="model">nexo.purchase.request</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_send" string="Enviar" type="object" class="btn-primary"/>
+          <button name="action_receive" string="Recibir respuesta" type="object"/>
+          <button name="action_create_order" string="Crear orden de compra" type="object" class="btn-primary"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <group>
+              <field name="partner_id"/>
+              <field name="date"/>
+            </group>
+            <group>
+              <field name="state" widget="statusbar"/>
+            </group>
+          </group>
+          <field name="line_ids">
+            <list editable="bottom">
+              <field name="product_id"/>
+              <field name="vehicle_id"/>
+              <field name="description"/>
+              <field name="quantity"/>
+              <field name="price_unit"/>
+            </list>
+          </field>
+          <group>
+            <field name="notes"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_purchase_request_list" model="ir.ui.view">
+    <field name="name">nexo.purchase.request.list</field>
+    <field name="model">nexo.purchase.request</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="partner_id"/>
+        <field name="date"/>
+        <field name="state" widget="badge"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_purchase_order_form_inherit_dealer" model="ir.ui.view">
+    <field name="name">nexo.purchase.order.form.inherit.dealer</field>
+    <field name="model">nexo.purchase.order</field>
+    <field name="inherit_id" ref="nexo_core.view_nexo_purchase_order_form"/>
+    <field name="arch" type="xml">
+      <field name="amount_total" position="after">
+        <field name="vehicle_reception_ids"/>
+      </field>
+      <xpath expr="//field[@name='line_ids']//list//field[@name='product_id']" position="after">
+        <field name="vehicle_id"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="cron_generate_reminders" model="ir.cron">
+    <field name="name">Generar recordatorios automáticos</field>
+    <field name="model_id" ref="model_nexo_reminder_cron"/>
+    <field name="state">code</field>
+    <field name="code">model._cron_generate_reminders()</field>
+    <field name="interval_number">1</field>
+    <field name="interval_type">days</field>
+    <field name="active">True</field>
+    <field name="nextcall" eval="(datetime.now() + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+  </record>
+
+  <record id="reminder_cfg_warranty" model="nexo.reminder.cron">
+    <field name="name">Garantía por vencer</field>
+    <field name="type">warranty</field>
+    <field name="days_before">15</field>
+    <field name="active">True</field>
+  </record>
+
+  <record id="reminder_cfg_maintenance" model="nexo.reminder.cron">
+    <field name="name">Mantenimiento próximo</field>
+    <field name="type">maintenance</field>
+    <field name="days_before">7</field>
+    <field name="active">True</field>
+  </record>
+
+  <record id="reminder_cfg_insurance" model="nexo.reminder.cron">
+    <field name="name">Seguro por vencer</field>
+    <field name="type">insurance</field>
+    <field name="days_before">15</field>
+    <field name="active">True</field>
+  </record>
+
+  <record id="reminder_cfg_birthday" model="nexo.reminder.cron">
+    <field name="name">Cumpleaños</field>
+    <field name="type">birthday</field>
+    <field name="days_before">3</field>
+    <field name="active">True</field>
+  </record>
+</odoo>

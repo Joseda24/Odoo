@@ -11,8 +11,39 @@
         <field name="model_year"/>
         <field name="vin"/>
         <field name="sale_price"/>
-        <field name="vehicle_status"/>
+        <field name="vehicle_status" widget="badge"/>
+        <field name="location"/>
       </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_vehicle_kanban" model="ir.ui.view">
+    <field name="name">nexo.vehicle.kanban</field>
+    <field name="model">nexo.vehicle</field>
+    <field name="arch" type="xml">
+      <kanban>
+        <field name="name"/>
+        <field name="sale_price"/>
+        <field name="vehicle_status"/>
+        <field name="brand_id"/>
+        <field name="model_id"/>
+        <field name="model_year"/>
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_global_click">
+              <div class="o_kanban_image">
+                <img t-att-src="kanban_image('nexo.vehicle', 'image_1920', record.id.raw_value)"/>
+              </div>
+              <div class="oe_kanban_details">
+                <strong><field name="name"/></strong><br/>
+                <field name="brand_id"/> <field name="model_id"/> <field name="model_year"/><br/>
+                <span class="text-muted"><field name="sale_price" widget="monetary"/></span><br/>
+                <field name="vehicle_status" widget="badge"/>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
     </field>
   </record>
 
@@ -30,7 +61,8 @@
               <field name="vin"/>
               <field name="license_plate"/>
               <field name="color"/>
-              <field name="vehicle_status"/>
+              <field name="vehicle_status" widget="badge"/>
+              <field name="location"/>
             </group>
             <group string="Clasificación">
               <field name="brand_id"/>
@@ -47,11 +79,67 @@
               <field name="seats"/>
               <field name="mileage"/>
             </group>
-            <group string="Precios">
+            <group string="Precios y garantía">
               <field name="sale_price"/>
               <field name="cost_price"/>
+              <field name="warranty_expiry"/>
+              <field name="acquisition_date"/>
             </group>
           </group>
+          <notebook>
+            <page string="Imágenes">
+              <field name="image_ids">
+                <kanban>
+                  <field name="image"/>
+                  <field name="name"/>
+                  <field name="sequence"/>
+                  <templates>
+                    <t t-name="kanban-box">
+                      <div class="oe_kanban_global_click">
+                        <img t-att-src="kanban_image('nexo.vehicle.image', 'image', record.id.raw_value)" style="max-height:150px;width:auto;"/>
+                        <div class="oe_kanban_details text-center">
+                          <field name="name"/>
+                        </div>
+                      </div>
+                    </t>
+                  </templates>
+                </kanban>
+              </field>
+            </page>
+            <page string="Pruebas de manejo">
+              <field name="test_drive_ids">
+                <list>
+                  <field name="name"/>
+                  <field name="date_hour"/>
+                  <field name="partner_id"/>
+                  <field name="salesperson_id"/>
+                  <field name="state"/>
+                </list>
+              </field>
+            </page>
+            <page string="Servicios">
+              <field name="service_order_ids">
+                <list>
+                  <field name="name"/>
+                  <field name="date_in"/>
+                  <field name="partner_id"/>
+                  <field name="state" widget="badge"/>
+                  <field name="amount_total"/>
+                </list>
+              </field>
+            </page>
+            <page string="Historial">
+              <field name="history_ids">
+                <list>
+                  <field name="date"/>
+                  <field name="type"/>
+                  <field name="description"/>
+                  <field name="cost"/>
+                  <field name="odometer"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
         </sheet>
       </form>
     </field>
@@ -67,6 +155,11 @@
         <field name="brand_id"/>
         <field name="model_id"/>
         <field name="license_plate"/>
+        <field name="vehicle_status"/>
+        <filter string="Disponibles" name="available" domain="[('vehicle_status','=','available')]"/>
+        <filter string="Vendidos" name="sold" domain="[('vehicle_status','=','sold')]"/>
+        <separator/>
+        <filter string="En servicio" name="in_service" domain="[('vehicle_status','=','in_service')]"/>
       </search>
     </field>
   </record>

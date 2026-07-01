@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <menuitem id="menu_nexo_root" name="Nexo" sequence="100"/>
+  <menuitem id="menu_nexo_root" name="Dashboard" sequence="100" action="nexo_dealer.action_nexo_dealer_dashboard"/>
 
   <menuitem id="menu_nexo_crm" name="CRM" parent="menu_nexo_root" sequence="10"/>
   <menuitem id="menu_nexo_sales" name="Ventas" parent="menu_nexo_root" sequence="20"/>

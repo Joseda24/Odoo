@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_reminder_form" model="ir.ui.view">
+    <field name="name">nexo.reminder.form</field>
+    <field name="model">nexo.reminder</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_mark_done" string="Marcar atendido" type="object" class="btn-primary"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="name"/></h1>
+          </div>
+          <group>
+            <group>
+              <field name="type"/>
+              <field name="date"/>
+              <field name="done"/>
+            </group>
+            <group>
+              <field name="partner_id"/>
+              <field name="vehicle_id"/>
+            </group>
+          </group>
+          <group>
+            <field name="notes"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_reminder_list" model="ir.ui.view">
+    <field name="name">nexo.reminder.list</field>
+    <field name="model">nexo.reminder</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="type"/>
+        <field name="date"/>
+        <field name="partner_id"/>
+        <field name="vehicle_id"/>
+        <field name="done"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_reminder_cron_form" model="ir.ui.view">
+    <field name="name">nexo.reminder.cron.form</field>
+    <field name="model">nexo.reminder.cron</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="type"/>
+            <field name="days_before"/>
+            <field name="active"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_nexo_reminder_cron_list" model="ir.ui.view">
+    <field name="name">nexo.reminder.cron.list</field>
+    <field name="model">nexo.reminder.cron</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="type"/>
+        <field name="days_before"/>
+        <field name="active"/>
+      </list>
+    </field>
+  </record>
+</odoo>
