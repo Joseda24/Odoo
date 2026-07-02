@@ -29,6 +29,16 @@ class NexoVehicle(models.Model):
     doors = fields.Integer('Puertas', default=4)
     seats = fields.Integer('Asientos', default=5)
     license_plate = fields.Char('Placas')
+    image_1920 = fields.Binary('Imagen principal', compute='_compute_image_1920', inverse='_set_image_1920', store=True)
+
+    def _compute_image_1920(self):
+        for v in self:
+            v.image_1920 = v.image_ids[:1].image if v.image_ids else False
+
+    def _set_image_1920(self):
+        for v in self:
+            if v.image_1920 and v.image_ids:
+                v.image_ids[0].image = v.image_1920
     vehicle_status = fields.Selection([
         ('available', 'Disponible'),
         ('sold', 'Vendido'),
@@ -39,7 +49,7 @@ class NexoVehicle(models.Model):
     warranty_expiry = fields.Date('Vencimiento de garantía')
     acquisition_date = fields.Date('Fecha de adquisición')
     trade_in_id = fields.Many2one('nexo.vehicle.trade_in', 'Proviene de trade-in', readonly=True, copy=False)
-    test_drive_ids = fields.One2many('nexo.vehicle.test.drive', 'vehicle_id', 'Pruebas de manejo')
+    test_drive_ids = fields.One2many('nexo.vehicle.test.drive', 'vehicle_id', 'Prueba de conducción')
     history_ids = fields.One2many('nexo.vehicle.history', 'vehicle_id', 'Historial', readonly=True)
     service_order_ids = fields.One2many('nexo.vehicle.service.order', 'vehicle_id', 'Órdenes de servicio')
     image_ids = fields.One2many('nexo.vehicle.image', 'vehicle_id', 'Galería de imágenes')

@@ -54,10 +54,10 @@
     <field name="view_mode">list,form</field>
   </record>
 
-  <menuitem id="menu_nexo_restaurant_root" name="Restaurante" sequence="50"/>
-  <menuitem id="menu_nexo_restaurant_tpv" name="TPV" parent="menu_nexo_restaurant_root" sequence="5"
+  <menuitem id="menu_nexo_restaurant_root" name="Restaurante" sequence="50" action="action_nexo_restaurant_table"/>
+  <menuitem id="menu_nexo_restaurant_tpv" name="TPV" parent="menu_nexo_restaurant_root" sequence="100"
             action="action_nexo_restaurant_tpv"/>
-  <menuitem id="menu_nexo_restaurant_mesas" name="Mesas" parent="menu_nexo_restaurant_root" sequence="10"
+  <menuitem id="menu_nexo_restaurant_mesas" name="Mesas" parent="menu_nexo_restaurant_root" sequence="5"
             action="action_nexo_restaurant_table"/>
   <menuitem id="menu_nexo_restaurant_areas" name="Áreas" parent="menu_nexo_restaurant_root" sequence="20"
             action="action_nexo_restaurant_area"/>

@@ -17,6 +17,37 @@
     </field>
   </record>
 
+  <record id="view_nexo_vehicle_inventory_kanban" model="ir.ui.view">
+    <field name="name">nexo.vehicle.inventory.kanban</field>
+    <field name="model">nexo.vehicle.inventory</field>
+    <field name="arch" type="xml">
+      <kanban default_group_by="state" group_create="true" quick_create="false">
+        <field name="name"/>
+        <field name="vehicle_id"/>
+        <field name="state"/>
+        <field name="type"/>
+        <field name="cost"/>
+        <field name="date_in"/>
+        <field name="supplier_id"/>
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_global_click">
+              <div class="oe_kanban_details">
+                <strong><field name="name"/></strong><br/>
+                <field name="vehicle_id"/><br/>
+                <span class="text-muted">
+                  <field name="type"/> - <field name="date_in"/>
+                </span><br/>
+                <span class="o_kanban_record_price"><field name="cost" widget="monetary"/></span>
+                <field name="state" widget="badge"/>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
   <record id="view_nexo_vehicle_inventory_form" model="ir.ui.view">
     <field name="name">nexo.vehicle.inventory.form</field>
     <field name="model">nexo.vehicle.inventory</field>

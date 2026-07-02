@@ -5,9 +5,37 @@
     <field name="model">nexo.vehicle.brand</field>
     <field name="arch" type="xml">
       <list>
+        <field name="logo" widget="image" class="oe_avatar"/>
         <field name="name"/>
         <field name="model_ids"/>
       </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_vehicle_brand_kanban" model="ir.ui.view">
+    <field name="name">nexo.vehicle.brand.kanban</field>
+    <field name="model">nexo.vehicle.brand</field>
+    <field name="arch" type="xml">
+      <kanban>
+        <field name="name"/>
+        <field name="logo"/>
+        <field name="model_ids"/>
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_global_click">
+              <div class="o_kanban_image">
+                <img t-att-src="kanban_image('nexo.vehicle.brand', 'logo', record.id.raw_value)"
+                     style="max-height:80px;max-width:120px;object-fit:contain;"
+                     t-att-alt="record.name.value"/>
+              </div>
+              <div class="oe_kanban_details text-center">
+                <strong><field name="name"/></strong><br/>
+                <span class="text-muted"><field name="model_ids"/> modelos</span>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
     </field>
   </record>
 

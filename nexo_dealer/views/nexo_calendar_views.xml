@@ -4,7 +4,7 @@
     <field name="name">nexo.vehicle.test.drive.calendar</field>
     <field name="model">nexo.vehicle.test.drive</field>
     <field name="arch" type="xml">
-      <calendar date_start="date_hour" string="Pruebas de manejo" color="state">
+      <calendar date_start="date_hour" string="Prueba de conducción" color="state">
         <field name="partner_id"/>
         <field name="vehicle_id"/>
         <field name="salesperson_id"/>

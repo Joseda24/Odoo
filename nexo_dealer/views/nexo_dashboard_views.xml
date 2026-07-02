@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="view_nexo_dealer_dashboard_form" model="ir.ui.view">
+  <record id="nexo_dealer_dashboard_form" model="ir.ui.view">
     <field name="name">nexo.dealer.dashboard.form</field>
     <field name="model">nexo.dealer.dashboard</field>
     <field name="arch" type="xml">
-      <form>
-        <header/>
+      <form edit="false">
         <sheet>
+          <style>
+            .nb-chart { margin-bottom: 20px; }
+            .nb-chart h4 { font-size: 14px; margin-bottom: 10px; color: #666; }
+            .nb-bars { display: flex; align-items: flex-end; gap: 8px; height: 200px; padding: 0 10px; }
+            .nb-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+            .nb-bar { width: 30px; background: #4e73df; border-radius: 4px 4px 0 0; min-height: 2px; transition: height .3s; }
+            .nb-bar-t { background: #1cc88a; }
+            .nb-val { font-size: 11px; font-weight: bold; margin-bottom: 3px; }
+            .nb-lbl { font-size: 10px; color: #858796; margin-top: 5px; white-space: nowrap; }
+            .nb-dwrap { display: flex; align-items: center; gap: 30px; padding: 10px; }
+            .nb-dring { width: 160px; height: 160px; border-radius: 50%; position: relative; flex-shrink: 0; }
+            .nb-dcenter { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 28px; font-weight: bold; color: #333; background: #fff; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+            .nb-dlegend { display: flex; flex-direction: column; gap: 6px; }
+            .nb-ditem { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+            .nb-ddot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+            .nb-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+            .nb-rlbl { width: 120px; font-size: 12px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .nb-rtrack { flex: 1; height: 18px; background: #eaecf4; border-radius: 4px; overflow: hidden; }
+            .nb-rfill { height: 100%; background: #36b9cc; border-radius: 4px; transition: width .3s; }
+            .nb-rcnt { width: 30px; font-size: 12px; font-weight: bold; text-align: right; }
+          </style>
           <div class="o_dashboard">
             <div class="o_dashboard_header">
               <h1>Dashboard - Concesionario</h1>
@@ -24,7 +44,7 @@
               <div class="col-lg-3 col-md-6">
                 <div class="card bg-success text-white">
                   <div class="card-body text-center py-3">
-                    <h5 class="card-title">Ventas del mes</h5>
+                    <h5 class="card-title">Vendidos</h5>
                     <h2><field name="sold_month"/></h2>
                     <small>$ <field name="sales_amount_month"/></small>
                   </div>
@@ -33,7 +53,7 @@
               <div class="col-lg-3 col-md-6">
                 <div class="card bg-warning text-white">
                   <div class="card-body text-center py-3">
-                    <h5 class="card-title">Servicios pend.</h5>
+                    <h5 class="card-title">En servicio</h5>
                     <h2><field name="pending_services"/></h2>
                   </div>
                 </div>
@@ -47,49 +67,10 @@
                 </div>
               </div>
             </div>
-
-            <div class="row mt-3">
-              <div class="col-md-8">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Ventas Mensuales</h5>
-                    <div class="nexo-chart" data-chart="sales" style="height:250px;width:100%"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Estado Vehículos</h5>
-                    <div class="nexo-chart" data-chart="status" style="height:250px;width:100%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row mt-3">
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Top Marcas</h5>
-                    <div class="nexo-chart" data-chart="brands" style="height:250px;width:100%"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Servicios Mensuales</h5>
-                    <div class="nexo-chart" data-chart="services" style="height:250px;width:100%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <field name="chart_sales_monthly" invisible="1"/>
-            <field name="chart_vehicle_status" invisible="1"/>
-            <field name="chart_brand_distribution" invisible="1"/>
-            <field name="chart_services_monthly" invisible="1"/>
+            <field name="chart_sales_monthly" widget="html" nolabel="1"/>
+            <field name="chart_vehicle_status" widget="html" nolabel="1"/>
+            <field name="chart_brand_distribution" widget="html" nolabel="1"/>
+            <field name="chart_services_monthly" widget="html" nolabel="1"/>
           </div>
         </sheet>
       </form>

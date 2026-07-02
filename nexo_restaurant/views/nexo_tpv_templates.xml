@@ -9,8 +9,8 @@
         <link rel="stylesheet" type="text/css" href="/nexo_restaurant/static/src/css/tpv.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
       </head>
       <body>
         <div id="tpv-app">
@@ -40,6 +40,7 @@
                   <span id="tpv-order-amount">0.00€</span>
                 </div>
               </div>
+              <div id="tpv-order-body">
               <div id="tpv-menu">
                 <div id="tpv-categories" class="tpv-categories"></div>
                 <div id="tpv-items" class="tpv-items-grid"></div>
@@ -62,6 +63,7 @@
                     <i class="fas fa-credit-card"></i> Pagar
                   </button>
                 </div>
+              </div>
               </div>
             </div>
             <div id="tpv-payment-modal" class="tpv-modal" style="display:none">

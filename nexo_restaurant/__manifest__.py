@@ -1,6 +1,6 @@
 {
     'name': 'Restaurante',
-    'version': '18.0.1.1.1',
+    'version': '18.0.1.1.3',
     'summary': 'Gestión de restaurante: carta, TPV, stock',
     'category': 'Sales',
     'depends': ['nexo_core', 'mail', 'web'],

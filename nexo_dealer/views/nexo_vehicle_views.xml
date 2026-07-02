@@ -11,7 +11,7 @@
         <field name="model_year"/>
         <field name="vin"/>
         <field name="sale_price"/>
-        <field name="vehicle_status" widget="badge"/>
+        <field name="vehicle_status" widget="badge" decoration-success="vehicle_status=='available'" decoration-danger="vehicle_status=='sold'" decoration-warning="vehicle_status=='reserved'" decoration-info="vehicle_status=='in_service'"/>
         <field name="location"/>
       </list>
     </field>
@@ -21,24 +21,42 @@
     <field name="name">nexo.vehicle.kanban</field>
     <field name="model">nexo.vehicle</field>
     <field name="arch" type="xml">
-      <kanban>
+      <kanban class="o_vehicle_kanban" default_group_by="vehicle_status" group_create="true" quick_create="false">
         <field name="name"/>
         <field name="sale_price"/>
         <field name="vehicle_status"/>
         <field name="brand_id"/>
         <field name="model_id"/>
         <field name="model_year"/>
+        <field name="image_1920"/>
+        <field name="color"/>
+        <field name="vin"/>
+        <field name="mileage"/>
         <templates>
           <t t-name="kanban-box">
             <div class="oe_kanban_global_click">
               <div class="o_kanban_image">
-                <img t-att-src="kanban_image('nexo.vehicle', 'image_1920', record.id.raw_value)"/>
+                <img t-att-src="kanban_image('nexo.vehicle', 'image_1920', record.id.raw_value)"
+                     style="height:120px;width:100%;object-fit:cover;border-radius:4px;"
+                     t-att-alt="record.name.value"/>
               </div>
               <div class="oe_kanban_details">
-                <strong><field name="name"/></strong><br/>
-                <field name="brand_id"/> <field name="model_id"/> <field name="model_year"/><br/>
-                <span class="text-muted"><field name="sale_price" widget="monetary"/></span><br/>
-                <field name="vehicle_status" widget="badge"/>
+                <div class="o_kanban_record_title">
+                  <field name="name"/>
+                </div>
+                <div class="o_kanban_record_subtitle">
+                  <field name="brand_id"/> <field name="model_id"/> <field name="model_year"/>
+                </div>
+                <div class="o_kanban_record_bottom" style="flex-direction:column">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="fw-bold h5 mb-0"><field name="sale_price"/></div>
+                    <span t-if="record.vehicle_status.raw_value == &apos;available&apos;" class="badge bg-success"><field name="vehicle_status"/></span>
+                    <span t-if="record.vehicle_status.raw_value == &apos;sold&apos;" class="badge bg-danger"><field name="vehicle_status"/></span>
+                    <span t-if="record.vehicle_status.raw_value == &apos;reserved&apos;" class="badge bg-warning"><field name="vehicle_status"/></span>
+                    <span t-if="record.vehicle_status.raw_value == &apos;in_service&apos;" class="badge bg-info"><field name="vehicle_status"/></span>
+                  </div>
+                  <div class="text-muted small text-truncate"><field name="vin"/></div>
+                </div>
               </div>
             </div>
           </t>
@@ -61,7 +79,7 @@
               <field name="vin"/>
               <field name="license_plate"/>
               <field name="color"/>
-              <field name="vehicle_status" widget="badge"/>
+              <field name="vehicle_status" widget="badge" decoration-success="vehicle_status=='available'" decoration-danger="vehicle_status=='sold'" decoration-warning="vehicle_status=='reserved'" decoration-info="vehicle_status=='in_service'"/>
               <field name="location"/>
             </group>
             <group string="Clasificación">
@@ -88,6 +106,7 @@
           </group>
           <notebook>
             <page string="Imágenes">
+              <field name="image_1920" widget="image" class="oe_avatar"/>
               <field name="image_ids">
                 <kanban>
                   <field name="image"/>
@@ -106,7 +125,7 @@
                 </kanban>
               </field>
             </page>
-            <page string="Pruebas de manejo">
+            <page string="Prueba de conducción">
               <field name="test_drive_ids">
                 <list>
                   <field name="name"/>
