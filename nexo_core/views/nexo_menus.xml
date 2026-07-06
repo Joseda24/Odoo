@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="action_nexo_root" model="ir.actions.act_window">
-    <field name="name">Nexo</field>
-    <field name="res_model">nexo.sequence</field>
-    <field name="view_mode">list,form</field>
-  </record>
+  <menuitem id="menu_nexo_root" name="Nexo" parent="menu_nexo_dealer" sequence="99"/>
+  <menuitem id="menu_nexo_sequences" name="Secuencias" parent="menu_nexo_root" sequence="10" action="action_nexo_sequence"/>
 </odoo>

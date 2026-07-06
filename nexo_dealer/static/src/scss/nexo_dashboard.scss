@@ -1,0 +1,57 @@
+.o_nexo_dashboard {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.o_nexo_dashboard .o_kpi_card {
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.o_nexo_dashboard .o_kpi_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+.o_nexo_dashboard .o_kpi_mini_card {
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+.o_nexo_dashboard .o_kpi_mini_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.06) !important;
+}
+
+.o_nexo_dashboard .kpi-icon {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.o_nexo_dashboard .bg-purple {
+    background-color: #6f42c1 !important;
+}
+.o_nexo_dashboard .text-purple {
+    color: #6f42c1 !important;
+}
+
+.o_nexo_dashboard .bg-opacity-10 {
+    --bs-bg-opacity: 0.1;
+}
+
+.o_nexo_dashboard table th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.o_nexo_dashboard .card {
+    border-radius: 0.5rem !important;
+}
+
+.o_nexo_dashboard .table-responsive {
+    -webkit-overflow-scrolling: touch;
+}

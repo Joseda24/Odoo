@@ -1,41 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="action_nexo_partner" model="ir.actions.act_window">
-    <field name="name">Clientes / Proveedores</field>
-    <field name="res_model">nexo.partner</field>
-    <field name="view_mode">list,form</field>
-  </record>
-
-  <record id="action_nexo_product" model="ir.actions.act_window">
-    <field name="name">Productos</field>
-    <field name="res_model">nexo.product</field>
-    <field name="view_mode">list,form</field>
-  </record>
-
-  <record id="action_nexo_product_category" model="ir.actions.act_window">
-    <field name="name">Categorías</field>
-    <field name="res_model">nexo.product.category</field>
-    <field name="view_mode">list,form</field>
-  </record>
-
-  <record id="action_nexo_sale_order" model="ir.actions.act_window">
-    <field name="name">Pedidos de venta</field>
-    <field name="res_model">nexo.sale.order</field>
-    <field name="view_mode">list,form</field>
-  </record>
-
-  <record id="action_nexo_purchase_order" model="ir.actions.act_window">
-    <field name="name">Órdenes de compra</field>
-    <field name="res_model">nexo.purchase.order</field>
-    <field name="view_mode">list,form</field>
-  </record>
-
-  <record id="action_nexo_invoice" model="ir.actions.act_window">
-    <field name="name">Facturas</field>
-    <field name="res_model">nexo.invoice</field>
-    <field name="view_mode">list,form</field>
-  </record>
-
   <record id="action_nexo_sequence" model="ir.actions.act_window">
     <field name="name">Secuencias</field>
     <field name="res_model">nexo.sequence</field>

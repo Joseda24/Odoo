@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-  <record id="dashboard_demo" model="nexo.dealer.dashboard">
-    <field name="id">1</field>
-  </record>
-</odoo>

@@ -9,7 +9,7 @@
   </record>
 
   <record id="seq_commission" model="nexo.sequence">
-    <field name="name">Comisión</field>
+    <field name="name">Comisiones</field>
     <field name="code">COM</field>
     <field name="prefix">COM-</field>
     <field name="padding">5</field>
@@ -24,11 +24,12 @@
     <field name="next_number">1</field>
   </record>
 
-  <record id="seq_part_move" model="nexo.sequence">
-    <field name="name">Movimiento refacción</field>
+  <record id="seq_movement" model="nexo.sequence">
+    <field name="name">Movimientos</field>
     <field name="code">MOV</field>
     <field name="prefix">MOV-</field>
     <field name="padding">5</field>
     <field name="next_number">1</field>
   </record>
+
 </odoo>

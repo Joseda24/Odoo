@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_vehicle_quotation">
+    <t t-call="web.external_layout">
+      <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+      <div class="page">
+        <h2 class="text-center mb-4">COTIZACIÓN DE VEHÍCULO</h2>
+        <div class="row mb-4">
+          <div class="col-6">
+            <strong>Cliente:</strong>
+            <div t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+          </div>
+          <div class="col-6 text-end">
+            <div><strong>Cotización #:</strong> <span t-field="doc.name"/></div>
+            <div><strong>Fecha:</strong> <span t-field="doc.date_order" t-options='{"widget": "date"}'/></div>
+            <div t-if="doc.validity_date"><strong>Válida hasta:</strong> <span t-field="doc.validity_date"/></div>
+          </div>
+        </div>
+
+        <t t-if="doc.vehicle_id">
+          <div class="bg-light p-3 rounded mb-4">
+            <h5 class="mb-3">VEHÍCULO</h5>
+            <div class="row">
+              <div class="col-6">
+                <table class="table table-sm table-borderless">
+                  <tr><td><strong>Modelo:</strong></td><td t-esc="doc.vehicle_id.model_id.brand_id.name + ' ' + doc.vehicle_id.model_id.name"/></tr>
+                  <tr><td><strong>Año:</strong></td><td t-field="doc.vehicle_id.model_year"/></tr>
+                  <tr><td><strong>Color:</strong></td><td t-field="doc.vehicle_id.color"/></tr>
+                  <tr><td><strong>VIN:</strong></td><td t-field="doc.vehicle_id.vin_sn"/></tr>
+                  <tr><td><strong>Matrícula:</strong></td><td t-field="doc.vehicle_id.license_plate"/></tr>
+                </table>
+              </div>
+              <div class="col-6">
+                <table class="table table-sm table-borderless">
+                  <tr><td><strong>Combustible:</strong></td><td t-field="doc.vehicle_id.fuel_type"/></tr>
+                  <tr><td><strong>Puertas:</strong></td><td t-field="doc.vehicle_id.doors"/></tr>
+                  <tr><td><strong>Plazas:</strong></td><td t-field="doc.vehicle_id.seats"/></tr>
+                  <tr><td><strong>Kilometraje:</strong></td><td t-field="doc.vehicle_id.odometer" t-options='{"widget": "integer"}'/> km</tr>
+                  <tr><td><strong>Transmisión:</strong></td><td t-field="doc.vehicle_id.transmission"/></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </t>
+
+        <table class="table table-bordered mt-3">
+          <thead class="table-dark">
+            <tr>
+              <th>Descripción</th>
+              <th class="text-end">Cant.</th>
+              <th class="text-end">Precio Unit.</th>
+              <th class="text-end">Importe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <t t-foreach="doc.order_line" t-as="line">
+              <tr>
+                <td t-field="line.name"/>
+                <td class="text-end" t-field="line.product_uom_qty"/>
+                <td class="text-end" t-field="line.price_unit" t-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/>
+                <td class="text-end" t-field="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/>
+              </tr>
+            </t>
+          </tbody>
+        </table>
+
+        <div class="row">
+          <div class="col-6 offset-6">
+            <table class="table table-sm table-borderless">
+              <tr>
+                <td><strong>Subtotal</strong></td>
+                <td class="text-end">
+                  <span t-field="doc.amount_untaxed" t-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/>
+                </td>
+              </tr>
+              <t t-set="tax_data" t-value="doc.tax_totals_json and json.loads(doc.tax_totals_json) or {}"/>
+              <tr t-foreach="tax_data.get('groups', [])" t-as="tax_line" t-key="tax_line_index">
+                <td><span t-esc="tax_line.get('tax_group_name', '')"/></td>
+                <td class="text-end">
+                  <span t-esc="tax_line.get('tax_group_amount', 0.0)" t-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/>
+                </td>
+              </tr>
+              <tr class="fw-bold">
+                <td>TOTAL</td>
+                <td class="text-end">
+                  <span t-field="doc.amount_total" t-options='{"widget": "monetary", "display_currency": "doc.currency_id"}'/>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="mt-5 pt-3 border-top">
+          <div class="row">
+            <div class="col-6">
+              <p class="mb-5"><strong>Entregado conforme:</strong></p>
+              <p>_________________________________</p>
+              <p>Firma del cliente</p>
+            </div>
+            <div class="col-6 text-end">
+              <p class="mb-5"><strong>Autorizado por:</strong></p>
+              <p>_________________________________</p>
+              <p t-field="doc.user_id.name"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 small text-muted">
+          <p class="mb-1"><strong>Notas:</strong></p>
+          <p>Esta cotización tiene una validez de <span t-esc="doc.validity_days or 15"/> días hábiles. Los precios incluyen IVA.
+          El vehículo está sujeto a disponibilidad. Para más información contacte a su asesor.</p>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <record id="report_action_vehicle_quotation" model="ir.actions.report">
+    <field name="name">Cotización de vehículo</field>
+    <field name="model">sale.order</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">nexo_dealer.report_vehicle_quotation</field>
+    <field name="report_file">nexo_dealer.report_vehicle_quotation</field>
+    <field name="binding_model_id" ref="sale.model_sale_order"/>
+    <field name="binding_type">report</field>
+    <field name="print_report_name">'Cotización_%s' % (object.name)</field>
+    <field name="display_name">Cotización de vehículo</field>
+  </record>
+</odoo>

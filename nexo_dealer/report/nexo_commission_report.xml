@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_commission_statement">
+    <t t-call="web.external_layout">
+      <div class="page">
+        <h2 class="text-center mb-4">LIQUIDACIÓN DE COMISIONES</h2>
+
+        <div class="row mb-4">
+          <div class="col-6">
+            <strong>Empleado:</strong>
+            <span t-field="doc.employee_id.name"/>
+          </div>
+          <div class="col-6 text-end">
+            <strong>Folio:</strong>
+            <span t-field="doc.name"/>
+            <br/>
+            <strong>Fecha:</strong>
+            <span t-field="doc.date"/>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-4">
+            <div class="bg-light p-2 rounded text-center">
+              <div class="small text-muted">Venta</div>
+              <div class="h4 mb-0" t-field="doc.sale_order_id.name"/>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="bg-light p-2 rounded text-center">
+              <div class="small text-muted">Monto base</div>
+              <div class="h4 mb-0" t-field="doc.base_amount" t-options='{"widget": "monetary", "display_currency": "doc.company_id.currency_id"}'/>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="bg-light p-2 rounded text-center">
+              <div class="small text-muted">Comisión</div>
+              <div class="h4 mb-0" t-field="doc.amount" t-options='{"widget": "monetary", "display_currency": "doc.company_id.currency_id"}'/>
+            </div>
+          </div>
+        </div>
+
+        <table class="table table-bordered">
+          <tr>
+            <td><strong>Tipo</strong></td>
+            <td t-field="doc.commission_type"/>
+          </tr>
+          <tr>
+            <td><strong>Tasa</strong></td>
+            <td t-field="doc.rate"/>%
+          </tr>
+          <tr>
+            <td><strong>Pagada</strong></td>
+            <td>
+              <span t-if="doc.paid">Sí</span>
+              <span t-else="">Pendiente</span>
+            </td>
+          </tr>
+          <tr t-if="doc.vehicle_id">
+            <td><strong>Vehículo</strong></td>
+            <td t-field="doc.vehicle_id.name"/>
+          </tr>
+        </table>
+      </div>
+    </t>
+  </template>
+
+  <record id="report_action_commission" model="ir.actions.report">
+    <field name="name">Comisión</field>
+    <field name="model">nexo.commission</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">nexo_dealer.report_commission_statement</field>
+    <field name="report_file">nexo_dealer.report_commission_statement</field>
+    <field name="binding_model_id" ref="model_nexo_commission"/>
+    <field name="binding_type">report</field>
+    <field name="print_report_name">'Comision_%s' % (object.name)</field>
+    <field name="display_name">Comisión</field>
+  </record>
+</odoo>

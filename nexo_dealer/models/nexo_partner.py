@@ -1,9 +1,9 @@
 from odoo import models, fields
 
 
-class NexoPartner(models.Model):
-    _inherit = 'nexo.partner'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
     birthdate = fields.Date('Fecha de nacimiento')
     last_contact = fields.Date('Último contacto')
-    referred_by = fields.Many2one('nexo.partner', 'Referido por')
+    referred_by = fields.Many2one('res.partner', 'Referido por')

@@ -1,76 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="view_nexo_vehicle_service_order_list" model="ir.ui.view">
-    <field name="name">nexo.vehicle.service.order.list</field>
-    <field name="model">nexo.vehicle.service.order</field>
+  <record id="view_repair_order_form_inherit_nexo" model="ir.ui.view">
+    <field name="name">repair.order.nexo.inherit</field>
+    <field name="model">repair.order</field>
+    <field name="inherit_id" ref="repair.view_repair_order_form"/>
     <field name="arch" type="xml">
-      <list>
-        <field name="name"/>
-        <field name="vehicle_id"/>
-        <field name="partner_id"/>
-        <field name="date_in"/>
-        <field name="state" widget="badge"/>
-        <field name="mechanic_id"/>
-        <field name="amount_total" sum="Total"/>
-      </list>
+      <field name="partner_id" position="after">
+        <field name="odometer_in"/>
+        <field name="odometer_out"/>
+        <field name="priority"/>
+      </field>
     </field>
   </record>
 
-  <record id="view_nexo_vehicle_service_order_form" model="ir.ui.view">
-    <field name="name">nexo.vehicle.service.order.form</field>
-    <field name="model">nexo.vehicle.service.order</field>
+  <record id="view_repair_order_kanban_inherit_nexo" model="ir.ui.view">
+    <field name="name">repair.order.kanban.nexo.inherit</field>
+    <field name="model">repair.order</field>
+    <field name="inherit_id" ref="repair.view_repair_kanban"/>
     <field name="arch" type="xml">
-      <form>
-        <field name="state" widget="statusbar"/>
-        <sheet>
-          <div class="oe_title">
-            <h1><field name="name"/></h1>
-          </div>
-          <group>
-            <group string="Vehículo">
-              <field name="vehicle_id"/>
-              <field name="partner_id"/>
-            </group>
-            <group string="Programación">
-              <field name="date_in"/>
-              <field name="date_out"/>
-              <field name="mechanic_id"/>
-            </group>
-          </group>
-          <field name="line_ids">
-            <list editable="bottom">
-              <field name="type"/>
-              <field name="description"/>
-              <field name="product_id"/>
-              <field name="quantity"/>
-              <field name="price_unit"/>
-              <field name="tax_percent"/>
-              <field name="price_subtotal" sum="Subtotal"/>
-            </list>
-          </field>
-          <group>
-            <field name="amount_subtotal"/>
-            <field name="amount_tax"/>
-            <field name="amount_total"/>
-          </group>
-          <group string="Notas / Diagnóstico">
-            <field name="notes"/>
-          </group>
-        </sheet>
-      </form>
+      <kanban position="attributes">
+        <attribute name="default_group_by">state</attribute>
+      </kanban>
     </field>
   </record>
 
-  <record id="view_nexo_vehicle_service_order_search" model="ir.ui.view">
-    <field name="name">nexo.vehicle.service.order.search</field>
-    <field name="model">nexo.vehicle.service.order</field>
-    <field name="arch" type="xml">
-      <search>
-        <field name="name"/>
-        <field name="vehicle_id"/>
-        <field name="partner_id"/>
-        <field name="mechanic_id"/>
-      </search>
-    </field>
+  <record id="action_nexo_vehicle_service_order" model="ir.actions.act_window">
+    <field name="name">Órdenes de servicio</field>
+    <field name="res_model">repair.order</field>
+    <field name="view_mode">list,kanban,form,calendar</field>
   </record>
 </odoo>

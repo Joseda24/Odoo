@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="tag_available" model="fleet.vehicle.tag">
+    <field name="name">En stock</field>
+    <field name="color">10</field>
+  </record>
+  <record id="tag_sold" model="fleet.vehicle.tag">
+    <field name="name">Vendido</field>
+    <field name="color">1</field>
+  </record>
+  <record id="tag_reserved" model="fleet.vehicle.tag">
+    <field name="name">Reservado</field>
+    <field name="color">3</field>
+  </record>
+  <record id="tag_in_service" model="fleet.vehicle.tag">
+    <field name="name">En servicio</field>
+    <field name="color">7</field>
+  </record>
+  <record id="tag_to_order" model="fleet.vehicle.tag">
+    <field name="name">A pedir</field>
+    <field name="color">5</field>
+  </record>
+</odoo>

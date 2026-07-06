@@ -1,140 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="view_nexo_crm_stage_form" model="ir.ui.view">
-    <field name="name">nexo.crm.stage.form</field>
-    <field name="model">nexo.crm.stage</field>
+  <record id="view_crm_lead_form_inherit_nexo" model="ir.ui.view">
+    <field name="name">crm.lead.nexo.inherit</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_lead_view_form"/>
     <field name="arch" type="xml">
-      <form>
-        <sheet>
-          <group>
-            <field name="name"/>
-            <field name="sequence"/>
-            <field name="probability"/>
-            <field name="fold"/>
-          </group>
-        </sheet>
-      </form>
-    </field>
-  </record>
-
-  <record id="view_nexo_crm_stage_list" model="ir.ui.view">
-    <field name="name">nexo.crm.stage.list</field>
-    <field name="model">nexo.crm.stage</field>
-    <field name="arch" type="xml">
-      <list>
-        <field name="sequence" widget="handle"/>
-        <field name="name"/>
-        <field name="probability"/>
-        <field name="fold"/>
-      </list>
-    </field>
-  </record>
-
-  <record id="view_nexo_lead_search" model="ir.ui.view">
-    <field name="name">nexo.lead.search</field>
-    <field name="model">nexo.lead</field>
-    <field name="arch" type="xml">
-      <search>
-        <field name="name"/>
-        <field name="contact_name"/>
-        <field name="email"/>
-        <field name="phone"/>
-        <field name="salesperson_id"/>
+      <field name="partner_id" position="after">
+        <field name="vehicle_id"/>
         <field name="source"/>
-        <filter string="Mis leads" name="my_leads" domain="[('salesperson_id','=',uid)]"/>
-      </search>
+      </field>
     </field>
   </record>
 
-  <record id="view_nexo_lead_form" model="ir.ui.view">
-    <field name="name">nexo.lead.form</field>
-    <field name="model">nexo.lead</field>
+  <record id="view_crm_lead_kanban_inherit_nexo" model="ir.ui.view">
+    <field name="name">crm.lead.kanban.nexo.inherit</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
     <field name="arch" type="xml">
-      <form>
-        <header>
-          <button name="action_convert_to_sale" string="Convertir a pedido" type="object" class="btn-primary"/>
-        </header>
-        <sheet>
-          <div class="oe_title">
-            <h1><field name="name"/></h1>
-          </div>
-          <group>
-            <group>
-              <field name="partner_id"/>
-              <field name="contact_name"/>
-              <field name="email"/>
-              <field name="phone"/>
-            </group>
-            <group>
-              <field name="source"/>
-              <field name="salesperson_id"/>
-              <field name="vehicle_id"/>
-              <field name="expected_revenue"/>
-            </group>
-          </group>
-          <group>
-            <field name="description"/>
-          </group>
-        </sheet>
-      </form>
+      <field name="partner_id" position="before">
+        <div class="mb-1">
+          <field name="vehicle_id" options="{'no_create': True}" class="d-block small"/>
+          <field name="source" class="text-muted small"/>
+        </div>
+      </field>
     </field>
   </record>
 
-  <record id="view_nexo_lead_kanban" model="ir.ui.view">
-    <field name="name">nexo.lead.kanban</field>
-    <field name="model">nexo.lead</field>
-    <field name="arch" type="xml">
-      <kanban default_group_by="stage_id" group_create="true" quick_create="false">
-        <field name="name"/>
-        <field name="contact_name"/>
-        <field name="email"/>
-        <field name="expected_revenue"/>
-        <field name="stage_id"/>
-        <field name="salesperson_id"/>
-        <field name="color"/>
-        <templates>
-          <t t-name="kanban-box">
-            <div t-attf-class="oe_kanban_global_click" t-att-data-color="record.color.raw_value">
-              <div class="o_kanban_card_header">
-                <div class="o_kanban_card_header_title">
-                  <strong><field name="name"/></strong>
-                </div>
-              </div>
-              <div class="o_kanban_card_content">
-                <div t-if="record.contact_name.raw_value">
-                  <i class="fa fa-user"/> <field name="contact_name"/>
-                </div>
-                <div t-if="record.email.raw_value">
-                  <i class="fa fa-envelope"/> <field name="email"/>
-                </div>
-                <div t-if="record.expected_revenue.raw_value">
-                  <field name="expected_revenue" widget="monetary"/>
-                </div>
-              </div>
-              <div class="o_kanban_card_bottom">
-                <field name="salesperson_id" widget="many2one_avatar"/>
-              </div>
-            </div>
-          </t>
-        </templates>
-      </kanban>
-    </field>
-  </record>
-
-  <record id="view_nexo_lead_list" model="ir.ui.view">
-    <field name="name">nexo.lead.list</field>
-    <field name="model">nexo.lead</field>
-    <field name="arch" type="xml">
-      <list>
-        <field name="name"/>
-        <field name="contact_name"/>
-        <field name="email"/>
-        <field name="source"/>
-        <field name="stage_id"/>
-        <field name="probability" widget="progressbar"/>
-        <field name="expected_revenue"/>
-        <field name="salesperson_id"/>
-      </list>
-    </field>
+  <record id="action_nexo_lead" model="ir.actions.act_window">
+    <field name="name">Leads / Oportunidades</field>
+    <field name="res_model">crm.lead</field>
+    <field name="view_mode">kanban,list,form</field>
   </record>
 </odoo>

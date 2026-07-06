@@ -11,7 +11,6 @@
         <field name="type"/>
         <field name="cost"/>
         <field name="supplier_id"/>
-        <field name="purchase_order_id"/>
         <field name="state" widget="badge"/>
       </list>
     </field>
@@ -21,25 +20,18 @@
     <field name="name">nexo.vehicle.inventory.kanban</field>
     <field name="model">nexo.vehicle.inventory</field>
     <field name="arch" type="xml">
-      <kanban default_group_by="state" group_create="true" quick_create="false">
+      <kanban default_group_by="state">
         <field name="name"/>
-        <field name="vehicle_id"/>
         <field name="state"/>
-        <field name="type"/>
-        <field name="cost"/>
-        <field name="date_in"/>
-        <field name="supplier_id"/>
+        <field name="vehicle_id"/>
         <templates>
-          <t t-name="kanban-box">
+          <t t-name="kanban-card">
             <div class="oe_kanban_global_click">
               <div class="oe_kanban_details">
-                <strong><field name="name"/></strong><br/>
-                <field name="vehicle_id"/><br/>
-                <span class="text-muted">
-                  <field name="type"/> - <field name="date_in"/>
-                </span><br/>
-                <span class="o_kanban_record_price"><field name="cost" widget="monetary"/></span>
-                <field name="state" widget="badge"/>
+                <strong><field name="name"/></strong>
+                <div><field name="vehicle_id"/></div>
+                <div><field name="date_in"/></div>
+                <div><field name="cost"/></div>
               </div>
             </div>
           </t>
@@ -54,10 +46,9 @@
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_done" string="Registrar ingreso" type="object" class="btn-primary"
-                  invisible="state != 'draft'"/>
-          <button name="action_cancel" string="Cancelar" type="object"
-                  invisible="state != 'draft'"/>
+          <button name="action_done" string="Registrar ingreso" type="object" invisible="state != 'draft'" class="btn-primary"/>
+          <button name="action_cancel" string="Cancelar" type="object" invisible="state != 'draft'"/>
+          <field name="state" widget="statusbar"/>
         </header>
         <sheet>
           <div class="oe_title">
@@ -66,21 +57,25 @@
           <group>
             <group>
               <field name="vehicle_id"/>
-              <field name="type"/>
               <field name="date_in"/>
+              <field name="type"/>
+              <field name="cost"/>
             </group>
             <group>
-              <field name="cost"/>
               <field name="supplier_id"/>
               <field name="purchase_order_id"/>
+              <field name="notes"/>
             </group>
           </group>
-          <group>
-            <field name="notes"/>
-          </group>
-          <field name="state" widget="statusbar"/>
         </sheet>
       </form>
     </field>
+  </record>
+
+  <record id="action_nexo_vehicle_inventory" model="ir.actions.act_window">
+    <field name="name">Inventario</field>
+    <field name="res_model">nexo.vehicle.inventory</field>
+    <field name="view_mode">kanban,list,form</field>
+    <field name="context">{&quot;default_group_by&quot;: &quot;state&quot;}</field>
   </record>
 </odoo>

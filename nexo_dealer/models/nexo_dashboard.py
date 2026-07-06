@@ -1,127 +1,184 @@
-from odoo import models, fields, api
+from odoo import models, api
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 
-class NexoDealerDashboard(models.Model):
-    _name = 'nexo.dealer.dashboard'
-    _description = 'Dashboard del concesionario'
-    _rec_name = 'name'
+class NexoDashboard(models.Model):
+    _name = 'nexo.dashboard'
+    _description = 'Nexo Dealer Dashboard'
+    _auto = False
 
-    name = fields.Char('Nombre', default='Dashboard')
+    @api.model
+    def get_menu_ids(self):
+        return {
+            'fleet': self.env.ref('fleet.menu_root').id,
+            'sale': self.env.ref('sale.sale_menu_root').id,
+            'purchase': self.env.ref('purchase.menu_purchase_root').id,
+            'crm': self.env.ref('crm.crm_menu_root').id,
+            'repair': self.env.ref('repair.menu_repair_order').id,
+            'stock': self.env.ref('stock.menu_stock_root').id,
+        }
 
-    total_vehicles = fields.Integer('Total en catálogo', compute='_compute_stats')
-    available_vehicles = fields.Integer('Disponibles', compute='_compute_stats')
-    sold_month = fields.Integer('Vendidos', compute='_compute_stats')
-    sales_amount_month = fields.Float('Importe ventas', compute='_compute_stats')
-    pending_services = fields.Integer('En servicio', compute='_compute_stats')
-    today_test_drives = fields.Integer('Pruebas hoy', compute='_compute_stats')
-    low_stock_count = fields.Integer('Vehículos próximos a agotarse', compute='_compute_stats')
-
-    chart_sales_monthly = fields.Html('Ventas mensuales', compute='_compute_charts', sanitize=False, sanitize_tags=False, sanitize_attributes=False)
-    chart_vehicle_status = fields.Html('Vehículos por estado', compute='_compute_charts', sanitize=False, sanitize_tags=False, sanitize_attributes=False)
-    chart_brand_distribution = fields.Html('Distribución por marca', compute='_compute_charts', sanitize=False, sanitize_tags=False, sanitize_attributes=False)
-    chart_services_monthly = fields.Html('Servicios mensuales', compute='_compute_charts', sanitize=False, sanitize_tags=False, sanitize_attributes=False)
-
-    @api.depends_context('uid')
-    def _compute_stats(self):
+    @api.model
+    def get_dashboard_data(self):
         today = datetime.today()
-        day_start = today.replace(hour=0, minute=0, second=0)
-        day_end = today.replace(hour=23, minute=59, second=59)
-        for rec in self:
-            rec.total_vehicles = rec.env['nexo.vehicle'].search_count([])
-            rec.available_vehicles = rec.env['nexo.vehicle'].search_count([('vehicle_status', '=', 'available')])
-            rec.sold_month = rec.env['nexo.vehicle'].search_count([('vehicle_status', '=', 'sold')])
-            sold = rec.env['nexo.vehicle'].search([('vehicle_status', '=', 'sold')])
-            rec.sales_amount_month = sum(v.sale_price or 0 for v in sold)
-            rec.pending_services = rec.env['nexo.vehicle'].search_count([('vehicle_status', '=', 'in_service')])
-            rec.today_test_drives = rec.env['nexo.vehicle.test.drive'].search_count([
-                ('state', '=', 'scheduled'),
-                ('date_hour', '>=', day_start),
-                ('date_hour', '<=', day_end),
-            ])
+        ctx = self.env.context
+        year = ctx.get('year') or today.year
+        salesperson_id = ctx.get('salesperson_id')
 
-    @api.depends_context('uid')
-    @api.depends_context('uid')
-    def _compute_charts(self):
-        today = datetime.today()
-        for rec in self:
-            months = []
-            for i in range(5, -1, -1):
-                m = today.month - i
-                y = today.year
-                while m <= 0:
-                    m += 12
-                    y -= 1
-                ms = datetime(y, m, 1)
-                if m == 12:
-                    me = datetime(y + 1, 1, 1)
-                else:
-                    me = datetime(y, m + 1, 1)
-                vehicles = rec.env['nexo.vehicle'].search([
-                    ('create_date', '>=', ms), ('create_date', '<', me),
-                ])
-                months.append({'label': ms.strftime('%b %Y'), 'count': len(vehicles)})
-            mx = max((d['count'] for d in months), default=1) or 1
-            html_months = '<div class="nb-chart"><h4>Vehiculos por mes</h4><div class="nb-bars">'
-            for d in months:
-                h = int((d['count'] / mx) * 160)
-                html_months += '<div class="nb-col"><div class="nb-bar" style="height:{}px"></div><div class="nb-val">{}</div><div class="nb-lbl">{}</div></div>'.format(h, d['count'], d['label'])
-            html_months += '</div></div>'
-            rec.chart_sales_monthly = html_months
+        sp_domain = []
+        if salesperson_id:
+            sp_domain = [('user_id', '=', int(salesperson_id))]
 
-            status_counts = {}
-            for v in rec.env['nexo.vehicle'].search([]):
-                s = v.vehicle_status or 'unknown'
-                status_counts[s] = status_counts.get(s, 0) + 1
-            slabels = {'available': 'Disponible', 'sold': 'Vendido', 'reserved': 'Reservado', 'in_service': 'En servicio', 'unknown': 'Sin estado'}
-            scolors = {'available': '#28a745', 'sold': '#dc3545', 'reserved': '#ffc107', 'in_service': '#17a2b8', 'unknown': '#6c757d'}
-            total_s = sum(status_counts.values()) or 1
-            pcts = []
-            legend = ''
-            for k, v in status_counts.items():
-                pct = round(v / total_s * 100)
-                pcts.append('{} {}%'.format(scolors.get(k, '#6c757d'), pct))
-                legend += '<div class="nb-ditem"><span class="nb-ddot" style="background:{}"></span>{} ({})</div>'.format(scolors.get(k, '#6c757d'), slabels.get(k, k), v)
-            conic = ','.join(pcts)
-            html_status = '<div class="nb-dwrap"><div class="nb-dring" style="background:conic-gradient({})"><div class="nb-dcenter">{}</div></div><div class="nb-dlegend">{}</div></div>'.format(conic, total_s, legend)
-            rec.chart_vehicle_status = html_status
+        thirty_days_ago = (today - timedelta(days=30)).strftime('%Y-%m-%d')
 
-            brands = {}
-            for v in rec.env['nexo.vehicle'].search([]):
-                b = v.brand_id.name or 'Sin marca'
-                brands[b] = brands.get(b, 0) + 1
-            mx_b = max(brands.values(), default=1) or 1
-            html_brands = '<div class="nb-chart"><h4>Top Marcas</h4>'
-            for k, v in sorted(brands.items(), key=lambda x: -x[1])[:10]:
-                pct = round(v / mx_b * 100)
-                html_brands += '<div class="nb-row"><div class="nb-rlbl">{}</div><div class="nb-rtrack"><div class="nb-rfill" style="width:{}%"></div></div><div class="nb-rcnt">{}</div></div>'.format(k, pct, v)
-            html_brands += '</div>'
-            rec.chart_brand_distribution = html_brands
+        user_sale_domain = sp_domain[:]
+        user_lead_domain = [('user_id', '=', int(salesperson_id))] if salesperson_id else []
+        user_repair_domain = [('user_id', '=', int(salesperson_id))] if salesperson_id else []
 
-            svc_data = []
-            for i in range(5, -1, -1):
-                m = today.month - i
-                y = today.year
-                while m <= 0:
-                    m += 12
-                    y -= 1
-                ms = datetime(y, m, 1)
-                if m == 12:
-                    me = datetime(y + 1, 1, 1)
-                else:
-                    me = datetime(y, m + 1, 1)
-                services = rec.env['nexo.vehicle'].search([
-                    ('vehicle_status', '=', 'in_service'),
-                    ('write_date', '>=', ms), ('write_date', '<', me),
-                ])
-                svc_data.append({'label': ms.strftime('%b %Y'), 'count': len(services)})
-            mx_s = max((d['count'] for d in svc_data), default=1) or 1
-            html_svc = '<div class="nb-chart"><h4>Servicios mensuales</h4><div class="nb-bars">'
-            for d in svc_data:
-                h = int((d['count'] / mx_s) * 160)
-                html_svc += '<div class="nb-col"><div class="nb-bar nb-bar-t" style="height:{}px"></div><div class="nb-val">{}</div><div class="nb-lbl">{}</div></div>'.format(h, d['count'], d['label'])
-            html_svc += '</div></div>'
-            rec.chart_services_monthly = html_svc
+        # ── Vehicles ──
+        statuses = ['available', 'sold', 'reserved', 'in_service', 'to_order']
+        vehicle_by_status = {}
+        for s in statuses:
+            vehicle_by_status[s] = self.env['fleet.vehicle'].search_count([('vehicle_status', '=', s)])
+        total_vehicles = sum(vehicle_by_status.values())
 
-        # end for
-        # end method
+        # ── Sales ──
+        sale_orders = self.env['sale.order'].search(user_sale_domain[:] + [('id', '!=', False)])
+        total_sale_orders = len(sale_orders)
+        confirmed_sales = len(sale_orders.filtered(lambda o: o.state == 'sale'))
+        draft_quotations = len(sale_orders.filtered(lambda o: o.state == 'draft'))
+
+        month_sales = self.env['sale.order'].search(user_sale_domain[:] + [
+            ('state', '=', 'sale'),
+            ('date_order', '>=', today.replace(day=1).strftime('%Y-%m-%d')),
+        ])
+        revenue_month = round(sum(month_sales.mapped('amount_total')), 2)
+
+        total_purchase_orders = self.env['purchase.order'].search_count([])
+        total_commissions = self.env['nexo.commission'].search_count([('paid', '=', False)])
+        total_leads = self.env['crm.lead'].search_count(user_lead_domain)
+        service_orders = self.env['repair.order'].search_count(
+            user_repair_domain[:] + [('create_date', '>=', thirty_days_ago)]
+        )
+        inventory_movements = self.env['nexo.vehicle.inventory'].search_count([('date_in', '>=', thirty_days_ago)])
+
+        # ── Charts data ──
+
+        # Vehicle status donut
+        vehicle_chart = {
+            'labels': ['Disponibles', 'Vendidos', 'Reservados', 'En servicio', 'A pedir'],
+            'values': [vehicle_by_status.get(s, 0) for s in statuses],
+            'colors': ['#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6c757d'],
+        }
+
+        # Leads donut
+        all_leads = self.env['crm.lead'].search(user_lead_domain)
+        won = len(all_leads.filtered(lambda l: l.stage_id.is_won))
+        in_progress = total_leads - won
+        lead_chart = {
+            'labels': ['Ganadas', 'En progreso'],
+            'values': [won, max(0, in_progress)],
+            'colors': ['#28a745', '#ffc107'],
+        }
+
+        # Financing donut
+        financing_requests = self.env['nexo.financing.request'].search([])
+        fin_approved = len(financing_requests.filtered(lambda r: r.status == 'approved'))
+        fin_rejected = len(financing_requests.filtered(lambda r: r.status == 'rejected'))
+        fin_pending = len(financing_requests.filtered(lambda r: r.status in ('submitted', 'draft')))
+        fin_chart = {
+            'labels': ['Aprobados', 'Rechazados', 'Pendientes'],
+            'values': [fin_approved, fin_rejected, fin_pending],
+            'colors': ['#28a745', '#dc3545', '#ffc107'],
+        }
+
+        # Commissions donut
+        commissions = self.env['nexo.commission'].search([])
+        comm_paid = len(commissions.filtered(lambda c: c.paid))
+        comm_pending = len(commissions.filtered(lambda c: not c.paid))
+        comm_chart = {
+            'labels': ['Pagadas', 'Pendientes'],
+            'values': [comm_paid, comm_pending],
+            'colors': ['#28a745', '#ffc107'],
+        }
+
+        # Inventory movement type donut
+        inv_moves = self.env['nexo.vehicle.inventory'].search([])
+        inv_types = {}
+        for move in inv_moves:
+            move_type = move.type or 'other'
+            inv_types[move_type] = inv_types.get(move_type, 0) + 1
+        type_labels = {
+            'purchase': 'Compra', 'consignment': 'Consignación',
+            'transfer': 'Transferencia', 'return': 'Devolución',
+            'trade_in': 'Trade-in', 'other': 'Otro',
+        }
+        inv_chart = {
+            'labels': [type_labels.get(k, k) for k in inv_types.keys()],
+            'values': list(inv_types.values()),
+            'colors': ['#714BDF', '#17a2b8', '#fd7e14', '#20c997', '#e83e8c', '#6c757d'][:len(inv_types)],
+        }
+
+        # Monthly sales bar chart (selected year)
+        monthly_sales = []
+        max_month = today.month if year == today.year else 12
+        for m in range(1, max_month + 1):
+            start = datetime(year, m, 1)
+            end = (start + relativedelta(months=1)) - timedelta(days=1)
+            if end > today and year == today.year:
+                end = today
+            orders_in_month = self.env['sale.order'].search([
+                ('state', '=', 'sale'),
+                ('date_order', '>=', start.strftime('%Y-%m-%d')),
+                ('date_order', '<=', end.strftime('%Y-%m-%d')),
+            ] + user_sale_domain)
+            monthly_sales.append({
+                'label': start.strftime('%b'),
+                'value': round(sum(orders_in_month.mapped('amount_total')), 2),
+            })
+
+        # ── Recent orders ──
+        recent_orders = self.env['sale.order'].search_read(
+            user_sale_domain[:] + [('id', '!=', 0)],
+            ['name', 'partner_id', 'amount_total', 'date_order', 'state', 'vehicle_id'],
+            limit=5, order='date_order desc',
+        )
+        recent_purchases = self.env['purchase.order'].search_read(
+            [], ['name', 'partner_id', 'amount_total', 'date_order', 'state'],
+            limit=5, order='date_order desc',
+        )
+
+        # ── Filter metadata ──
+        current_year = today.year
+        filter_years = [current_year - i for i in range(4)]
+        salespersons = self.env['res.users'].search_read(
+            [('share', '=', False)],
+            ['id', 'name'],
+            order='name',
+        )
+
+        return {
+            'total_vehicles': total_vehicles,
+            'vehicle_by_status': vehicle_by_status,
+            'total_sale_orders': total_sale_orders,
+            'confirmed_sales': confirmed_sales,
+            'draft_quotations': draft_quotations,
+            'revenue_month': revenue_month,
+            'total_purchase_orders': total_purchase_orders,
+            'total_commissions': total_commissions,
+            'total_leads': total_leads,
+            'service_orders': service_orders,
+            'inventory_movements': inventory_movements,
+            'vehicle_chart': vehicle_chart,
+            'lead_chart': lead_chart,
+            'fin_chart': fin_chart,
+            'comm_chart': comm_chart,
+            'inv_chart': inv_chart,
+            'monthly_sales': monthly_sales,
+            'recent_orders': recent_orders,
+            'recent_purchases': recent_purchases,
+            'currency': '\u20ac',
+            'filter_years': filter_years,
+            'filter_salespersons': [{'id': s['id'], 'name': s['name']} for s in salespersons],
+        }

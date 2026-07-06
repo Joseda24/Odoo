@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="view_nexo_vehicle_history_list" model="ir.ui.view">
-    <field name="name">nexo.vehicle.history.list</field>
-    <field name="model">nexo.vehicle.history</field>
-    <field name="arch" type="xml">
-      <list>
-        <field name="date"/>
-        <field name="type"/>
-        <field name="description"/>
-        <field name="cost"/>
-        <field name="odometer"/>
-        <field name="partner_id"/>
-      </list>
-    </field>
+  <record id="action_nexo_vehicle_history" model="ir.actions.act_window">
+    <field name="name">Historial</field>
+    <field name="res_model">fleet.vehicle.log.services</field>
+    <field name="view_mode">list,form</field>
   </record>
 </odoo>

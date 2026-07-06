@@ -1,64 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="view_nexo_vehicle_brand_list" model="ir.ui.view">
-    <field name="name">nexo.vehicle.brand.list</field>
-    <field name="model">nexo.vehicle.brand</field>
+  <record id="view_fleet_vehicle_model_brand_form_inherit_nexo" model="ir.ui.view">
+    <field name="name">fleet.vehicle.model.brand.nexo.inherit</field>
+    <field name="model">fleet.vehicle.model.brand</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_model_brand_view_form"/>
     <field name="arch" type="xml">
-      <list>
-        <field name="logo" widget="image" class="oe_avatar"/>
-        <field name="name"/>
-        <field name="model_ids"/>
-      </list>
-    </field>
-  </record>
-
-  <record id="view_nexo_vehicle_brand_kanban" model="ir.ui.view">
-    <field name="name">nexo.vehicle.brand.kanban</field>
-    <field name="model">nexo.vehicle.brand</field>
-    <field name="arch" type="xml">
-      <kanban>
-        <field name="name"/>
+      <field name="name" position="after">
+        <field name="description"/>
         <field name="logo"/>
-        <field name="model_ids"/>
-        <templates>
-          <t t-name="kanban-box">
-            <div class="oe_kanban_global_click">
-              <div class="o_kanban_image">
-                <img t-att-src="kanban_image('nexo.vehicle.brand', 'logo', record.id.raw_value)"
-                     style="max-height:80px;max-width:120px;object-fit:contain;"
-                     t-att-alt="record.name.value"/>
-              </div>
-              <div class="oe_kanban_details text-center">
-                <strong><field name="name"/></strong><br/>
-                <span class="text-muted"><field name="model_ids"/> modelos</span>
-              </div>
-            </div>
-          </t>
-        </templates>
-      </kanban>
+      </field>
     </field>
   </record>
-
-  <record id="view_nexo_vehicle_brand_form" model="ir.ui.view">
-    <field name="name">nexo.vehicle.brand.form</field>
-    <field name="model">nexo.vehicle.brand</field>
-    <field name="arch" type="xml">
-      <form>
-        <sheet>
-          <div class="oe_title">
-            <h1><field name="name"/></h1>
-          </div>
-          <group>
-            <field name="logo" widget="image"/>
-          </group>
-          <field name="model_ids">
-            <list>
-              <field name="name"/>
-              <field name="vehicle_type"/>
-            </list>
-          </field>
-        </sheet>
-      </form>
-    </field>
+  <record id="action_nexo_vehicle_brand" model="ir.actions.act_window">
+    <field name="name">Marcas</field>
+    <field name="res_model">fleet.vehicle.model.brand</field>
+    <field name="view_mode">kanban,list,form</field>
   </record>
 </odoo>

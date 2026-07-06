@@ -1,6 +1,4 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
-from datetime import date, timedelta
 
 
 class NexoFinancingPlan(models.Model):
@@ -21,9 +19,9 @@ class NexoFinancingRequest(models.Model):
     _order = 'date desc, id desc'
 
     name = fields.Char('Folio', required=True, copy=False, readonly=True, default='Nuevo')
-    partner_id = fields.Many2one('nexo.partner', 'Cliente', required=True)
-    vehicle_id = fields.Many2one('nexo.vehicle', 'Vehículo', required=True)
-    sale_order_id = fields.Many2one('nexo.sale.order', 'Pedido de venta')
+    partner_id = fields.Many2one('res.partner', 'Cliente', required=True)
+    vehicle_id = fields.Many2one('fleet.vehicle', 'Vehículo', required=True)
+    sale_order_id = fields.Many2one('sale.order', 'Pedido de venta')
     plan_id = fields.Many2one('nexo.financing.plan', 'Plan', required=True)
     vehicle_price = fields.Float('Precio del vehículo', required=True)
     down_payment = fields.Float('Enganche', compute='_compute_amounts', store=True, readonly=True)
@@ -72,19 +70,19 @@ class NexoFinancingRequest(models.Model):
             self.vehicle_price = self.vehicle_id.sale_price
 
     def action_submit(self):
-        self.status = 'submitted'
+        self.write({'status': 'submitted'})
 
     def action_approve(self):
-        self.status = 'approved'
+        self.write({'status': 'approved'})
 
     def action_reject(self):
-        self.status = 'rejected'
+        self.write({'status': 'rejected'})
 
     def action_activate(self):
-        self.status = 'active'
+        self.write({'status': 'active'})
 
     def action_mark_paid(self):
-        self.status = 'paid'
+        self.write({'status': 'paid'})
 
     @api.model_create_multi
     def create(self, vals_list):

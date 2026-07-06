@@ -1,16 +1,12 @@
 from odoo import models, fields
 
 
-class NexoVehicleModel(models.Model):
-    _name = 'nexo.vehicle.model'
-    _description = 'Modelo de vehículo'
-    _order = 'brand_id, name'
+class FleetVehicleModel(models.Model):
+    _inherit = 'fleet.vehicle.model'
 
-    name = fields.Char('Modelo', required=True)
-    brand_id = fields.Many2one('nexo.vehicle.brand', 'Marca', required=True)
     year_from = fields.Integer('Año desde')
     year_to = fields.Integer('Año hasta')
-    vehicle_type = fields.Selection([
+    vehicle_type = fields.Selection(selection_add=[
         ('sedan', 'Sedán'),
         ('suv', 'SUV'),
         ('hatchback', 'Hatchback'),
@@ -20,6 +16,4 @@ class NexoVehicleModel(models.Model):
         ('van', 'Van'),
         ('motorcycle', 'Motocicleta'),
         ('other', 'Otro'),
-    ], 'Tipo', default='sedan')
-    active = fields.Boolean('Activo', default=True)
-    company_id = fields.Many2one('res.company', 'Compañía', default=lambda self: self.env.company)
+    ], ondelete={'sedan': 'set default', 'suv': 'cascade', 'hatchback': 'cascade', 'pickup': 'cascade', 'coupe': 'cascade', 'convertible': 'cascade', 'van': 'cascade', 'motorcycle': 'cascade', 'other': 'cascade'}, string='Tipo', default='sedan')

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_purchase_request_list" model="ir.ui.view">
+    <field name="name">nexo.purchase.request.list</field>
+    <field name="model">nexo.purchase.request</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="partner_id"/>
+        <field name="date"/>
+        <field name="state" widget="badge"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_nexo_purchase_request_form" model="ir.ui.view">
+    <field name="name">nexo.purchase.request.form</field>
+    <field name="model">nexo.purchase.request</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_send" string="Enviar" type="object" invisible="state != 'draft'"/>
+          <button name="action_receive" string="Recibir respuesta" type="object" invisible="state != 'sent'"/>
+          <button name="action_create_order" string="Crear orden de compra" type="object" invisible="state != 'received'" class="btn-primary"/>
+          <field name="state" widget="statusbar"/>
+        </header>
+        <sheet>
+          <h1><field name="name"/></h1>
+          <group>
+            <field name="partner_id"/>
+            <field name="date"/>
+          </group>
+          <field name="line_ids">
+            <list editable="bottom">
+              <field name="product_id"/>
+              <field name="vehicle_id"/>
+              <field name="description"/>
+              <field name="quantity"/>
+              <field name="price_unit"/>
+            </list>
+          </field>
+          <field name="notes"/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

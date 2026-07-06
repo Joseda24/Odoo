@@ -1,185 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="view_nexo_vehicle_list" model="ir.ui.view">
-    <field name="name">nexo.vehicle.list</field>
-    <field name="model">nexo.vehicle</field>
+  <record id="view_fleet_vehicle_form_inherit_nexo" model="ir.ui.view">
+    <field name="name">fleet.vehicle.nexo.inherit</field>
+    <field name="model">fleet.vehicle</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
     <field name="arch" type="xml">
-      <list>
-        <field name="name"/>
-        <field name="brand_id"/>
-        <field name="model_id"/>
+      <field name="transmission" position="after">
+        <field name="engine"/>
         <field name="model_year"/>
-        <field name="vin"/>
+      </field>
+      <field name="driver_id" position="after">
+        <field name="vehicle_status"/>
         <field name="sale_price"/>
-        <field name="vehicle_status" widget="badge" decoration-success="vehicle_status=='available'" decoration-danger="vehicle_status=='sold'" decoration-warning="vehicle_status=='reserved'" decoration-info="vehicle_status=='in_service'"/>
+        <field name="cost_price"/>
         <field name="location"/>
-      </list>
+        <field name="warranty_expiry"/>
+      </field>
     </field>
   </record>
 
-  <record id="view_nexo_vehicle_kanban" model="ir.ui.view">
-    <field name="name">nexo.vehicle.kanban</field>
-    <field name="model">nexo.vehicle</field>
+  <record id="view_fleet_vehicle_list_inherit_nexo" model="ir.ui.view">
+    <field name="name">fleet.vehicle.nexo.list.inherit</field>
+    <field name="model">fleet.vehicle</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree"/>
     <field name="arch" type="xml">
-      <kanban class="o_vehicle_kanban" default_group_by="vehicle_status" group_create="true" quick_create="false">
-        <field name="name"/>
-        <field name="sale_price"/>
+      <field name="license_plate" position="after">
         <field name="vehicle_status"/>
-        <field name="brand_id"/>
-        <field name="model_id"/>
-        <field name="model_year"/>
-        <field name="image_1920"/>
-        <field name="color"/>
-        <field name="vin"/>
-        <field name="mileage"/>
-        <templates>
-          <t t-name="kanban-box">
-            <div class="oe_kanban_global_click">
-              <div class="o_kanban_image">
-                <img t-att-src="kanban_image('nexo.vehicle', 'image_1920', record.id.raw_value)"
-                     style="height:120px;width:100%;object-fit:cover;border-radius:4px;"
-                     t-att-alt="record.name.value"/>
-              </div>
-              <div class="oe_kanban_details">
-                <div class="o_kanban_record_title">
-                  <field name="name"/>
-                </div>
-                <div class="o_kanban_record_subtitle">
-                  <field name="brand_id"/> <field name="model_id"/> <field name="model_year"/>
-                </div>
-                <div class="o_kanban_record_bottom" style="flex-direction:column">
-                  <div class="d-flex align-items-center gap-2">
-                    <div class="fw-bold h5 mb-0"><field name="sale_price"/></div>
-                    <span t-if="record.vehicle_status.raw_value == &apos;available&apos;" class="badge bg-success"><field name="vehicle_status"/></span>
-                    <span t-if="record.vehicle_status.raw_value == &apos;sold&apos;" class="badge bg-danger"><field name="vehicle_status"/></span>
-                    <span t-if="record.vehicle_status.raw_value == &apos;reserved&apos;" class="badge bg-warning"><field name="vehicle_status"/></span>
-                    <span t-if="record.vehicle_status.raw_value == &apos;in_service&apos;" class="badge bg-info"><field name="vehicle_status"/></span>
-                  </div>
-                  <div class="text-muted small text-truncate"><field name="vin"/></div>
-                </div>
-              </div>
-            </div>
-          </t>
-        </templates>
+        <field name="sale_price"/>
+      </field>
+    </field>
+  </record>
+
+  <record id="view_fleet_vehicle_kanban_inherit_nexo" model="ir.ui.view">
+    <field name="name">fleet.vehicle.nexo.kanban.inherit</field>
+    <field name="model">fleet.vehicle</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_view_kanban"/>
+    <field name="arch" type="xml">
+      <kanban position="attributes">
+        <attribute name="default_group_by">vehicle_status</attribute>
       </kanban>
     </field>
   </record>
 
-  <record id="view_nexo_vehicle_form" model="ir.ui.view">
-    <field name="name">nexo.vehicle.form</field>
-    <field name="model">nexo.vehicle</field>
+  <record id="view_fleet_vehicle_search_inherit_nexo" model="ir.ui.view">
+    <field name="name">fleet.vehicle.nexo.search.inherit</field>
+    <field name="model">fleet.vehicle</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_view_search"/>
     <field name="arch" type="xml">
-      <form>
-        <sheet>
-          <div class="oe_title">
-            <h1><field name="name"/></h1>
-          </div>
-          <group>
-            <group string="Identificación">
-              <field name="vin"/>
-              <field name="license_plate"/>
-              <field name="color"/>
-              <field name="vehicle_status" widget="badge" decoration-success="vehicle_status=='available'" decoration-danger="vehicle_status=='sold'" decoration-warning="vehicle_status=='reserved'" decoration-info="vehicle_status=='in_service'"/>
-              <field name="location"/>
-            </group>
-            <group string="Clasificación">
-              <field name="brand_id"/>
-              <field name="model_id"/>
-              <field name="model_year"/>
-            </group>
-          </group>
-          <group>
-            <group string="Especificaciones">
-              <field name="engine"/>
-              <field name="transmission"/>
-              <field name="fuel_type"/>
-              <field name="doors"/>
-              <field name="seats"/>
-              <field name="mileage"/>
-            </group>
-            <group string="Precios y garantía">
-              <field name="sale_price"/>
-              <field name="cost_price"/>
-              <field name="warranty_expiry"/>
-              <field name="acquisition_date"/>
-            </group>
-          </group>
-          <notebook>
-            <page string="Imágenes">
-              <field name="image_1920" widget="image" class="oe_avatar"/>
-              <field name="image_ids">
-                <kanban>
-                  <field name="image"/>
-                  <field name="name"/>
-                  <field name="sequence"/>
-                  <templates>
-                    <t t-name="kanban-box">
-                      <div class="oe_kanban_global_click">
-                        <img t-att-src="kanban_image('nexo.vehicle.image', 'image', record.id.raw_value)" style="max-height:150px;width:auto;"/>
-                        <div class="oe_kanban_details text-center">
-                          <field name="name"/>
-                        </div>
-                      </div>
-                    </t>
-                  </templates>
-                </kanban>
-              </field>
-            </page>
-            <page string="Prueba de conducción">
-              <field name="test_drive_ids">
-                <list>
-                  <field name="name"/>
-                  <field name="date_hour"/>
-                  <field name="partner_id"/>
-                  <field name="salesperson_id"/>
-                  <field name="state"/>
-                </list>
-              </field>
-            </page>
-            <page string="Servicios">
-              <field name="service_order_ids">
-                <list>
-                  <field name="name"/>
-                  <field name="date_in"/>
-                  <field name="partner_id"/>
-                  <field name="state" widget="badge"/>
-                  <field name="amount_total"/>
-                </list>
-              </field>
-            </page>
-            <page string="Historial">
-              <field name="history_ids">
-                <list>
-                  <field name="date"/>
-                  <field name="type"/>
-                  <field name="description"/>
-                  <field name="cost"/>
-                  <field name="odometer"/>
-                </list>
-              </field>
-            </page>
-          </notebook>
-        </sheet>
-      </form>
+      <field name="name" position="after">
+        <field name="vehicle_status"/>
+        <filter name="nexo_available" string="Disponibles" domain="[('vehicle_status','=','available')]"/>
+        <filter name="nexo_sold" string="Vendidos" domain="[('vehicle_status','=','sold')]"/>
+        <filter name="nexo_in_service" string="En servicio" domain="[('vehicle_status','=','in_service')]"/>
+      </field>
     </field>
   </record>
 
-  <record id="view_nexo_vehicle_search" model="ir.ui.view">
-    <field name="name">nexo.vehicle.search</field>
-    <field name="model">nexo.vehicle</field>
-    <field name="arch" type="xml">
-      <search>
-        <field name="name"/>
-        <field name="vin"/>
-        <field name="brand_id"/>
-        <field name="model_id"/>
-        <field name="license_plate"/>
-        <field name="vehicle_status"/>
-        <filter string="Disponibles" name="available" domain="[('vehicle_status','=','available')]"/>
-        <filter string="Vendidos" name="sold" domain="[('vehicle_status','=','sold')]"/>
-        <separator/>
-        <filter string="En servicio" name="in_service" domain="[('vehicle_status','=','in_service')]"/>
-      </search>
-    </field>
+  <record id="action_nexo_vehicle" model="ir.actions.act_window">
+    <field name="name">Vehículos</field>
+    <field name="res_model">fleet.vehicle</field>
+    <field name="view_mode">kanban,list,form</field>
+    <field name="context">{&quot;default_group_by&quot;: &quot;vehicle_status&quot;}</field>
   </record>
 </odoo>

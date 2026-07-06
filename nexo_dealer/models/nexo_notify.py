@@ -10,8 +10,8 @@ class NexoReminder(models.Model):
     name = fields.Char('Asunto', required=True)
     model = fields.Char('Modelo')
     res_id = fields.Integer('ID del registro')
-    partner_id = fields.Many2one('nexo.partner', 'Cliente')
-    vehicle_id = fields.Many2one('nexo.vehicle', 'Vehículo')
+    partner_id = fields.Many2one('res.partner', 'Cliente')
+    vehicle_id = fields.Many2one('fleet.vehicle', 'Vehículo')
     date = fields.Date('Fecha', required=True)
     type = fields.Selection([
         ('warranty', 'Vencimiento de garantía'),
@@ -29,8 +29,8 @@ class NexoReminder(models.Model):
         self.done = True
 
 
-class NexoVehicle(models.Model):
-    _inherit = 'nexo.vehicle'
+class FleetVehicle(models.Model):
+    _inherit = 'fleet.vehicle'
 
     next_maintenance_date = fields.Date('Próximo mantenimiento')
     next_maintenance_km = fields.Float('Próximo mantenimiento (km)')
@@ -51,12 +51,13 @@ class NexoReminderCron(models.Model):
     ], 'Tipo', required=True)
     active = fields.Boolean('Activo', default=True)
 
+    @api.model
     def _cron_generate_reminders(self):
         today = date.today()
         configs = self.search([('active', '=', True)])
         for cfg in configs:
             if cfg.type == 'warranty':
-                vehicles = self.env['nexo.vehicle'].search([
+                vehicles = self.env['fleet.vehicle'].search([
                     ('warranty_expiry', '!=', False),
                     ('warranty_expiry', '<=', today + timedelta(days=cfg.days_before)),
                     ('warranty_expiry', '>=', today),
@@ -68,21 +69,20 @@ class NexoReminderCron(models.Model):
                         ('done', '=', False),
                     ], limit=1)
                     if not existing:
-                        partners = self.env['nexo.sale.order'].search([
+                        partners = self.env['sale.order'].search([
                             ('vehicle_id', '=', v.id),
                         ]).mapped('partner_id')
                         partner = partners[:1] if partners else False
                         self.env['nexo.reminder'].create({
-                            'name': f'Garantía por vencer - {v.name}',
+                            'name': f'Garantía por vencer - {v.display_name}',
                             'partner_id': partner.id if partner else False,
                             'vehicle_id': v.id,
                             'date': v.warranty_expiry,
                             'type': 'warranty',
-                            'notes': f'La garantía del vehículo {v.name} vence el {v.warranty_expiry}',
+                            'notes': f'La garantía del vehículo {v.display_name} vence el {v.warranty_expiry}',
                         })
-
             elif cfg.type == 'maintenance':
-                vehicles = self.env['nexo.vehicle'].search([
+                vehicles = self.env['fleet.vehicle'].search([
                     ('next_maintenance_date', '!=', False),
                     ('next_maintenance_date', '<=', today + timedelta(days=cfg.days_before)),
                     ('next_maintenance_date', '>=', today),
@@ -95,14 +95,13 @@ class NexoReminderCron(models.Model):
                     ], limit=1)
                     if not existing:
                         self.env['nexo.reminder'].create({
-                            'name': f'Mantenimiento - {v.name}',
+                            'name': f'Mantenimiento - {v.display_name}',
                             'vehicle_id': v.id,
                             'date': v.next_maintenance_date,
                             'type': 'maintenance',
                         })
-
             elif cfg.type == 'insurance':
-                vehicles = self.env['nexo.vehicle'].search([
+                vehicles = self.env['fleet.vehicle'].search([
                     ('insurance_expiry', '!=', False),
                     ('insurance_expiry', '<=', today + timedelta(days=cfg.days_before)),
                     ('insurance_expiry', '>=', today),
@@ -114,40 +113,39 @@ class NexoReminderCron(models.Model):
                         ('done', '=', False),
                     ], limit=1)
                     if not existing:
-                        partners = self.env['nexo.sale.order'].search([
+                        partners = self.env['sale.order'].search([
                             ('vehicle_id', '=', v.id),
                         ]).mapped('partner_id')
                         partner = partners[:1] if partners else False
                         self.env['nexo.reminder'].create({
-                            'name': f'Seguro por vencer - {v.name}',
+                            'name': f'Seguro por vencer - {v.display_name}',
                             'partner_id': partner.id if partner else False,
                             'vehicle_id': v.id,
                             'date': v.insurance_expiry,
                             'type': 'insurance',
                         })
-
             elif cfg.type == 'birthday':
-                partners = self.env['nexo.partner'].search([])
-                for p in partners:
-                    if not p._fields.get('birthdate'):
-                        continue
-                    bday = p.birthdate
-                    if not bday:
-                        continue
-                    next_bday = date(today.year, bday.month, bday.day)
+                target_end = today + timedelta(days=cfg.days_before)
+                self.env.cr.execute("""
+                    SELECT id, name, birthdate
+                    FROM res_partner
+                    WHERE birthdate IS NOT NULL
+                    AND to_char(birthdate, 'MM-DD') BETWEEN %s AND %s
+                """, (today.strftime('%m-%d'), target_end.strftime('%m-%d')))
+                rows = self.env.cr.fetchall()
+                for p_id, p_name, birthdate in rows:
+                    next_bday = date(today.year, birthdate.month, birthdate.day)
                     if next_bday < today:
-                        next_bday = date(today.year + 1, bday.month, bday.day)
-                    days_until = (next_bday - today).days
-                    if 0 <= days_until <= cfg.days_before:
-                        existing = self.env['nexo.reminder'].search([
-                            ('partner_id', '=', p.id),
-                            ('type', '=', 'birthday'),
-                            ('date', '=', next_bday),
-                        ], limit=1)
-                        if not existing:
-                            self.env['nexo.reminder'].create({
-                                'name': f'Cumpleaños - {p.name}',
-                                'partner_id': p.id,
-                                'date': next_bday,
-                                'type': 'birthday',
-                            })
+                        next_bday = date(today.year + 1, birthdate.month, birthdate.day)
+                    existing = self.env['nexo.reminder'].search([
+                        ('partner_id', '=', p_id),
+                        ('type', '=', 'birthday'),
+                        ('date', '=', next_bday),
+                    ], limit=1)
+                    if not existing:
+                        self.env['nexo.reminder'].create({
+                            'name': f'Cumpleaños - {p_name}',
+                            'partner_id': p_id,
+                            'date': next_bday,
+                            'type': 'birthday',
+                        })

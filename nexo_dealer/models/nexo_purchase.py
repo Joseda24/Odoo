@@ -1,36 +1,33 @@
 from odoo import models, fields, api
 
 
-class NexoPurchaseOrder(models.Model):
-    _inherit = 'nexo.purchase.order'
+class PurchaseOrder(models.Model):
+    _inherit = 'purchase.order'
 
     vehicle_reception_ids = fields.One2many('nexo.vehicle.inventory', 'purchase_order_id', 'Recepciones')
 
     def action_receive(self):
-        res = super().action_receive()
-        for order in self:
-            for line in order.line_ids:
-                if line.vehicle_id:
-                    self.env['nexo.vehicle.inventory'].create({
-                        'purchase_order_id': order.id,
-                        'vehicle_id': line.vehicle_id.id,
-                        'quantity': line.quantity,
-                        'cost': line.price_unit,
-                        'partner_id': order.partner_id.id,
-                    })
-        return res
+        self.ensure_one()
+        for line in self.order_line:
+            if line.vehicle_id:
+                self.env['nexo.vehicle.inventory'].create({
+                    'purchase_order_id': self.id,
+                    'vehicle_id': line.vehicle_id.id,
+                    'cost': line.price_unit,
+                    'supplier_id': self.partner_id.id,
+                })
+        return True
 
 
-class NexoPurchaseOrderLine(models.Model):
-    _inherit = 'nexo.purchase.order.line'
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
 
-    vehicle_id = fields.Many2one('nexo.vehicle', 'Vehículo', ondelete='restrict')
+    vehicle_id = fields.Many2one('fleet.vehicle', 'Vehículo', ondelete='restrict')
 
     @api.onchange('vehicle_id')
     def _onchange_vehicle_id(self):
         if self.vehicle_id:
-            self.product_id = self.vehicle_id.product_id
-            self.description = self.vehicle_id.name
+            self.name = self.vehicle_id.display_name
             self.price_unit = self.vehicle_id.cost_price
 
 
@@ -40,7 +37,7 @@ class NexoPurchaseRequest(models.Model):
     _order = 'date desc, id desc'
 
     name = fields.Char('Folio', required=True, copy=False, readonly=True, default='Nuevo')
-    partner_id = fields.Many2one('nexo.partner', 'Proveedor')
+    partner_id = fields.Many2one('res.partner', 'Proveedor')
     date = fields.Date('Fecha', default=fields.Date.today, required=True)
     state = fields.Selection([
         ('draft', 'Borrador'),
@@ -63,30 +60,30 @@ class NexoPurchaseRequest(models.Model):
         return super().create(vals_list)
 
     def action_send(self):
-        self.state = 'sent'
+        self.write({'state': 'sent'})
 
     def action_receive(self):
-        self.state = 'received'
+        self.write({'state': 'received'})
 
     def action_create_order(self):
         self.ensure_one()
-        order = self.env['nexo.purchase.order'].create({
+        order = self.env['purchase.order'].create({
             'partner_id': self.partner_id.id,
             'notes': self.notes,
         })
         for line in self.line_ids:
-            self.env['nexo.purchase.order.line'].create({
+            self.env['purchase.order.line'].create({
                 'order_id': order.id,
                 'product_id': line.product_id.id,
                 'vehicle_id': line.vehicle_id.id,
-                'description': line.description,
-                'quantity': line.quantity,
+                'name': line.description,
+                'product_qty': line.quantity,
                 'price_unit': line.price_unit,
             })
         self.state = 'ordered'
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'nexo.purchase.order',
+            'res_model': 'purchase.order',
             'res_id': order.id,
             'view_mode': 'form',
         }
@@ -97,8 +94,8 @@ class NexoPurchaseRequestLine(models.Model):
     _description = 'Línea de RFQ'
 
     request_id = fields.Many2one('nexo.purchase.request', 'RFQ', required=True, ondelete='cascade')
-    product_id = fields.Many2one('nexo.product', 'Producto')
-    vehicle_id = fields.Many2one('nexo.vehicle', 'Vehículo')
+    product_id = fields.Many2one('product.product', 'Producto')
+    vehicle_id = fields.Many2one('fleet.vehicle', 'Vehículo')
     description = fields.Char('Descripción')
     quantity = fields.Float('Cantidad', default=1.0, required=True)
     price_unit = fields.Float('Precio estimado')

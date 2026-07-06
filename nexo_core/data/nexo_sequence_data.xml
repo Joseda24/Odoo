@@ -40,19 +40,5 @@
     <field name="next_number">1</field>
   </record>
 
-  <record id="seq_test_drive" model="nexo.sequence">
-    <field name="name">Prueba de manejo</field>
-    <field name="code">TD</field>
-    <field name="prefix">TD-</field>
-    <field name="padding">5</field>
-    <field name="next_number">1</field>
-  </record>
 
-  <record id="seq_trade_in" model="nexo.sequence">
-    <field name="name">Trade-in</field>
-    <field name="code">TRADE</field>
-    <field name="prefix">TRD-</field>
-    <field name="padding">5</field>
-    <field name="next_number">1</field>
-  </record>
 </odoo>

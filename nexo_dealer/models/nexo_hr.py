@@ -1,34 +1,22 @@
 from odoo import models, fields, api
 
 
-class NexoEmployee(models.Model):
-    _name = 'nexo.employee'
-    _description = 'Empleado'
-    _order = 'name'
+class HrEmployee(models.Model):
+    _inherit = 'hr.employee'
 
-    name = fields.Char('Nombre', required=True)
-    code = fields.Char('Código')
-    phone = fields.Char('Teléfono')
-    email = fields.Char('Correo')
-    position = fields.Selection([
+    nexo_position = fields.Selection([
         ('sales', 'Vendedor'),
         ('mechanic', 'Mecánico'),
         ('manager', 'Gerente'),
         ('admin', 'Administrativo'),
     ], 'Puesto', default='sales')
-    user_id = fields.Many2one('res.users', 'Usuario')
-    commission_type = fields.Selection([
+    nexo_code = fields.Char('Código')
+    nexo_commission_type = fields.Selection([
         ('percentage', 'Porcentaje'),
         ('fixed', 'Monto fijo'),
     ], 'Tipo de comisión', default='percentage')
-    commission_rate = fields.Float('% Comisión', default=5.0)
-    fixed_commission = fields.Float('Comisión fija', default=0.0)
-    active = fields.Boolean('Activo', default=True)
-    company_id = fields.Many2one('res.company', 'Compañía', default=lambda self: self.env.company)
-
-    _sql_constraints = [
-        ('code_unique', 'unique(code, company_id)', 'El código de empleado debe ser único'),
-    ]
+    nexo_commission_rate = fields.Float('% Comisión', default=5.0)
+    nexo_fixed_commission = fields.Float('Comisión fija', default=0.0)
 
 
 class NexoCommission(models.Model):
@@ -37,11 +25,11 @@ class NexoCommission(models.Model):
     _order = 'date desc, id desc'
 
     name = fields.Char('Folio', required=True, copy=False, readonly=True, default='Nuevo')
-    employee_id = fields.Many2one('nexo.employee', 'Empleado', required=True)
-    sale_order_id = fields.Many2one('nexo.sale.order', 'Venta', required=True)
-    vehicle_id = fields.Many2one('nexo.vehicle', 'Vehículo')
+    employee_id = fields.Many2one('hr.employee', 'Empleado', required=True)
+    sale_order_id = fields.Many2one('sale.order', 'Venta', required=True)
+    vehicle_id = fields.Many2one('fleet.vehicle', 'Vehículo')
     date = fields.Date('Fecha', default=fields.Date.today)
-    commission_type = fields.Selection(related='employee_id.commission_type', string='Tipo')
+    commission_type = fields.Selection(related='employee_id.nexo_commission_type', string='Tipo')
     base_amount = fields.Float('Monto base', readonly=True)
     rate = fields.Float('Tasa', readonly=True)
     amount = fields.Float('Comisión', readonly=True)

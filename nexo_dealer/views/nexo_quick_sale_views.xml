@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_nexo_quick_sale_form" model="ir.ui.view">
+    <field name="name">nexo.quick.sale.form</field>
+    <field name="model">nexo.quick.sale</field>
+    <field name="arch" type="xml">
+      <form string="Venta rápida">
+        <sheet>
+          <group>
+            <group string="Vehículo">
+              <field name="vehicle_id" options="{'no_create': True}"/>
+              <field name="sale_price" widget="monetary"/>
+            </group>
+            <group string="Cliente">
+              <field name="partner_id"/>
+              <field name="salesperson_id" options="{'no_create': True}"/>
+            </group>
+          </group>
+          <group string="Pago">
+            <field name="payment_method"/>
+            <field name="financing_plan_id"
+              invisible="payment_method != 'finance'"
+              required="payment_method == 'finance'"
+              options="{'no_create': True}"/>
+          </group>
+          <field name="notes" placeholder="Notas opcionales..."/>
+        </sheet>
+        <footer>
+          <button name="action_create_sale" string="Crear venta" type="object" class="btn-primary"/>
+          <button string="Cancelar" class="btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="nexo_action_quick_sale_wizard" model="ir.actions.act_window">
+    <field name="name">Venta rápida</field>
+    <field name="res_model">nexo.quick.sale</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="context">{&quot;default_payment_method&quot;: &quot;cash&quot;}</field>
+  </record>
+
+  <menuitem id="menu_nexo_quick_sale" name="Venta rápida"
+    parent="sale.menu_sale_order" sequence="5" action="nexo_action_quick_sale_wizard"/>
+</odoo>
