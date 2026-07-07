@@ -16,6 +16,7 @@ class NexoDashboard extends Component {
         this.chartFinancing = useRef("chartFinancing");
         this.chartCommissions = useRef("chartCommissions");
         this.chartInventory = useRef("chartInventory");
+        this.chartPurchase = useRef("chartPurchase");
         this.chartSales = useRef("chartSales");
         this.charts = [];
         this.chartLibLoaded = false;
@@ -29,7 +30,7 @@ class NexoDashboard extends Component {
                 total_commissions: 0, total_leads: 0, service_orders: 0,
                 inventory_movements: 0, currency: "\u20ac",
                 vehicle_chart: null, lead_chart: null, fin_chart: null,
-                comm_chart: null, inv_chart: null, monthly_sales: [],
+                comm_chart: null, inv_chart: null, purchase_chart: null, monthly_sales: [],
                 recent_orders: [], recent_purchases: [],
                 filter_years: [], filter_salespersons: [],
             },
@@ -72,6 +73,7 @@ class NexoDashboard extends Component {
         this._makeDonut(this.chartLeads, this.state.data.lead_chart);
         this._makeDonut(this.chartFinancing, this.state.data.fin_chart);
         this._makeDonut(this.chartCommissions, this.state.data.comm_chart);
+        this._makeDonut(this.chartPurchase, this.state.data.purchase_chart);
         this._makeDonut(this.chartInventory, this.state.data.inv_chart);
         this._renderSalesChart();
     }
@@ -152,7 +154,7 @@ class NexoDashboard extends Component {
     openLeads() { this.menuService.selectMenu(this.menuIds.crm); }
     openService() { this.menuService.selectMenu(this.menuIds.repair); }
     openInventory() { this.menuService.selectMenu(this.menuIds.stock); }
-    openFinancing() { this._open("nexo.financing.request", [[false, "list"], [false, "form"]], "Financiamiento"); }
+    openFinancing() { this._open("nexo.financing.request", [[false, "list"], [false, "form"]], "Financiación"); }
     openCommissions() { this._open("nexo.commission", [[false, "list"], [false, "form"]], "Comisiones"); }
 
     _open(model, views, name) {

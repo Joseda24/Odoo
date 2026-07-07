@@ -17,7 +17,7 @@
   </record>
 
   <record id="seq_financing" model="nexo.sequence">
-    <field name="name">Financiamiento</field>
+    <field name="name">Financiación</field>
     <field name="code">FIN</field>
     <field name="prefix">FIN-</field>
     <field name="padding">5</field>

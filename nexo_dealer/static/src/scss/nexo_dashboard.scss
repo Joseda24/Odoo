@@ -55,3 +55,49 @@
 .o_nexo_dashboard .table-responsive {
     -webkit-overflow-scrolling: touch;
 }
+
+/* ── Purchase Dashboard Cards ── */
+.o_purchase_dashboard .o_dash_card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 0.5rem !important;
+    overflow: hidden;
+}
+.o_purchase_dashboard .o_dash_card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.o_purchase_dashboard .o_dash_card .card-body {
+    border-radius: inherit;
+}
+
+.o_purchase_dashboard .o_dash_card_sm {
+    transition: transform 0.2s ease;
+    border-radius: 0.5rem !important;
+}
+.o_purchase_dashboard .o_dash_card_sm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.o_purchase_dashboard .text-white-50 {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.o_purchase_dashboard .opacity-75 {
+    opacity: 0.75;
+}
+
+
+/* ── Purchase Dashboard Card Hover ── */
+.o_purchase_dashboard .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.o_purchase_dashboard .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.o_purchase_dashboard [filter_name] {
+    cursor: pointer;
+}

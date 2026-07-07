@@ -35,6 +35,7 @@
             'nexo_dealer/static/src/scss/nexo_dashboard.scss',
         ],
     },
+    'post_init_hook': 'post_init_hook',
     'web_icon': "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='none' stroke='%23714BDF' stroke-width='5'/><path d='M32 12 L32 32 L44 38' fill='none' stroke='%23714BDF' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='32' cy='32' r='4' fill='%23714BDF'/></svg>",
     'installable': True,
     'application': True,

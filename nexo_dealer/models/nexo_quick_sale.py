@@ -13,7 +13,7 @@ class NexoQuickSale(models.TransientModel):
     sale_price = fields.Float('Precio de venta', required=True)
     payment_method = fields.Selection([
         ('cash', 'Contado'),
-        ('finance', 'Financiamiento'),
+        ('finance', 'Financiación'),
         ('trade_in', 'Trade-in'),
         ('card', 'Tarjeta'),
         ('transfer', 'Transferencia'),
@@ -24,7 +24,7 @@ class NexoQuickSale(models.TransientModel):
     @api.onchange('vehicle_id')
     def _onchange_vehicle_id(self):
         if self.vehicle_id:
-            self.sale_price = self.vehicle_id.car_value or self.vehicle_id.sale_price or 0
+            self.sale_price = self.vehicle_id.sale_price or 0
 
     def action_create_sale(self):
         self.ensure_one()

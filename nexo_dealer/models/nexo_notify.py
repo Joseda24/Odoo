@@ -126,12 +126,25 @@ class NexoReminderCron(models.Model):
                         })
             elif cfg.type == 'birthday':
                 target_end = today + timedelta(days=cfg.days_before)
-                self.env.cr.execute("""
-                    SELECT id, name, birthdate
-                    FROM res_partner
-                    WHERE birthdate IS NOT NULL
-                    AND to_char(birthdate, 'MM-DD') BETWEEN %s AND %s
-                """, (today.strftime('%m-%d'), target_end.strftime('%m-%d')))
+                today_md = today.strftime('%m-%d')
+                target_md = target_end.strftime('%m-%d')
+                if today_md <= target_md:
+                    self.env.cr.execute("""
+                        SELECT id, name, birthdate
+                        FROM res_partner
+                        WHERE birthdate IS NOT NULL
+                        AND to_char(birthdate, 'MM-DD') BETWEEN %s AND %s
+                    """, (today_md, target_md))
+                else:
+                    self.env.cr.execute("""
+                        SELECT id, name, birthdate
+                        FROM res_partner
+                        WHERE birthdate IS NOT NULL
+                        AND (
+                            to_char(birthdate, 'MM-DD') BETWEEN %s AND '12-31'
+                            OR to_char(birthdate, 'MM-DD') BETWEEN '01-01' AND %s
+                        )
+                    """, (today_md, target_md))
                 rows = self.env.cr.fetchall()
                 for p_id, p_name, birthdate in rows:
                     next_bday = date(today.year, birthdate.month, birthdate.day)

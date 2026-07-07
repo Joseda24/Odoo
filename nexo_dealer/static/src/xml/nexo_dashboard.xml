@@ -96,9 +96,9 @@
                         </div>
                     </div>
 
-                    <!-- 3 Donut Charts Row (Vehicles, Leads, Financing) -->
+                    <!-- 4 Donut Charts Row (Vehicles, Leads, Financing, Purchases) -->
                     <div class="row g-3 mb-4">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-header bg-white border-bottom-0 pt-3 pb-0 text-center">
                                     <h6 class="mb-0 fw-bold"><i class="fa fa-pie-chart text-primary me-1"/> Vehículos</h6>
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-header bg-white border-bottom-0 pt-3 pb-0 text-center">
                                     <h6 class="mb-0 fw-bold"><i class="fa fa-pie-chart text-warning me-1"/> Oportunidades</h6>
@@ -118,13 +118,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-header bg-white border-bottom-0 pt-3 pb-0 text-center">
-                                    <h6 class="mb-0 fw-bold"><i class="fa fa-pie-chart text-success me-1"/> Financiamiento</h6>
+                                    <h6 class="mb-0 fw-bold"><i class="fa fa-pie-chart text-success me-1"/> Financiación</h6>
                                 </div>
                                 <div class="card-body d-flex align-items-center justify-content-center" style="min-height:220px">
                                     <canvas t-ref="chartFinancing" style="max-height:200px;width:100%"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-header bg-white border-bottom-0 pt-3 pb-0 text-center">
+                                    <h6 class="mb-0 fw-bold"><i class="fa fa-pie-chart text-info me-1"/> Compras</h6>
+                                </div>
+                                <div class="card-body d-flex align-items-center justify-content-center" style="min-height:220px">
+                                    <canvas t-ref="chartPurchase" style="max-height:200px;width:100%"/>
                                 </div>
                             </div>
                         </div>

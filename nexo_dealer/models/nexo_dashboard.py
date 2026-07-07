@@ -44,7 +44,7 @@ class NexoDashboard(models.Model):
         total_vehicles = sum(vehicle_by_status.values())
 
         # ── Sales ──
-        sale_orders = self.env['sale.order'].search(user_sale_domain[:] + [('id', '!=', False)])
+        sale_orders = self.env['sale.order'].search(user_sale_domain[:])
         total_sale_orders = len(sale_orders)
         confirmed_sales = len(sale_orders.filtered(lambda o: o.state == 'sale'))
         draft_quotations = len(sale_orders.filtered(lambda o: o.state == 'draft'))
@@ -120,7 +120,29 @@ class NexoDashboard(models.Model):
             'colors': ['#714BDF', '#17a2b8', '#fd7e14', '#20c997', '#e83e8c', '#6c757d'][:len(inv_types)],
         }
 
-        # Monthly sales bar chart (selected year)
+        
+        # Purchase orders by state donut
+        purchase_orders = self.env['purchase.order'].search([])
+        po_states = {
+            'draft': 'Borrador',
+            'sent': 'Enviado',
+            'to approve': 'Por aprobar',
+            'purchase': 'Comprado',
+            'done': 'Finalizado',
+            'cancel': 'Cancelado',
+        }
+        po_counts = {}
+        for po in purchase_orders:
+            state = po.state or 'draft'
+            po_counts[state] = po_counts.get(state, 0) + 1
+        po_colors = ['#6c757d', '#17a2b8', '#ffc107', '#28a745', '#007bff', '#dc3545']
+        purchase_chart = {
+            'labels': [po_states.get(s, s) for s in po_states.keys()],
+            'values': [po_counts.get(s, 0) for s in po_states.keys()],
+            'colors': po_colors,
+        }
+
+# Monthly sales bar chart (selected year)
         monthly_sales = []
         max_month = today.month if year == today.year else 12
         for m in range(1, max_month + 1):
@@ -140,7 +162,7 @@ class NexoDashboard(models.Model):
 
         # ── Recent orders ──
         recent_orders = self.env['sale.order'].search_read(
-            user_sale_domain[:] + [('id', '!=', 0)],
+            user_sale_domain[:],
             ['name', 'partner_id', 'amount_total', 'date_order', 'state', 'vehicle_id'],
             limit=5, order='date_order desc',
         )
@@ -174,6 +196,7 @@ class NexoDashboard(models.Model):
             'lead_chart': lead_chart,
             'fin_chart': fin_chart,
             'comm_chart': comm_chart,
+            'purchase_chart': purchase_chart,
             'inv_chart': inv_chart,
             'monthly_sales': monthly_sales,
             'recent_orders': recent_orders,

@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
     salesperson_id = fields.Many2one('res.users', 'Vendedor', default=lambda self: self.env.user)
     payment_method = fields.Selection([
         ('cash', 'Contado'),
-        ('finance', 'Financiamiento'),
+        ('finance', 'Financiación'),
         ('trade_in', 'Trade-in'),
         ('card', 'Tarjeta'),
         ('transfer', 'Transferencia'),

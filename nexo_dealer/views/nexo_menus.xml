@@ -14,7 +14,7 @@
     parent="menu_nexo_reminders" sequence="20" action="action_nexo_reminder_cron"/>
 
   <!-- Sales > Financing -->
-  <menuitem id="menu_nexo_finance" name="Financiamiento" 
+  <menuitem id="menu_nexo_finance" name="Financiación" 
     parent="sale.sale_order_menu" sequence="60"/>
   <menuitem id="menu_nexo_financing_plans" name="Planes" 
     parent="menu_nexo_finance" sequence="10" action="action_nexo_financing_plan"/>

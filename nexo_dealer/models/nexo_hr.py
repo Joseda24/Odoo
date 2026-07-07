@@ -46,4 +46,5 @@ class NexoCommission(models.Model):
         return super().create(vals_list)
 
     def action_set_paid(self):
-        self.paid = True
+        for rec in self:
+            rec.paid = True
